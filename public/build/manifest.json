@@ -1,0 +1,32 @@
+{
+  "public/font/OpenSauce/OpenSauceOne-Regular.ttf": {
+    "file": "assets/OpenSauceOne-Regular-CGh6s3ww.ttf",
+    "src": "public/font/OpenSauce/OpenSauceOne-Regular.ttf"
+  },
+  "public/font/Roxborough/roxborough-cf-regular.otf": {
+    "file": "assets/roxborough-cf-regular-B2UG6q_X.otf",
+    "src": "public/font/Roxborough/roxborough-cf-regular.otf"
+  },
+  "public/img/bg.jpg": {
+    "file": "assets/bg-BNxoFrcg.jpg",
+    "src": "public/img/bg.jpg"
+  },
+  "public/img/section/degraded.png": {
+    "file": "assets/degraded-C65r6xC2.png",
+    "src": "public/img/section/degraded.png"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-B67OnFaH.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-C9RpgoZL.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
