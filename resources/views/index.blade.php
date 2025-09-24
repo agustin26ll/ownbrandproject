@@ -6,7 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Bienvenido a OwnBrand</title>
+    @production
+    <!-- En producción, carga los archivos compilados directamente -->
+    <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
+    <script type="module" src="{{ asset('build/assets/app.js') }}"></script>
+    @else
+    <!-- En desarrollo, usa Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endproduction
 </head>
 
 <body>
