@@ -1,22 +1,22 @@
 {
   "public/font/OpenSauce/OpenSauceOne-Regular.ttf": {
-    "file": "assets/OpenSauceOne-Regular-CGh6s3ww.ttf",
+    "file": "OpenSauceOne-Regular.ttf",
     "src": "public/font/OpenSauce/OpenSauceOne-Regular.ttf"
   },
   "public/font/Roxborough/roxborough-cf-regular.otf": {
-    "file": "assets/roxborough-cf-regular-B2UG6q_X.otf",
+    "file": "roxborough-cf-regular.otf",
     "src": "public/font/Roxborough/roxborough-cf-regular.otf"
   },
   "public/img/bg.jpg": {
-    "file": "assets/bg-BNxoFrcg.jpg",
+    "file": "bg.jpg",
     "src": "public/img/bg.jpg"
   },
   "public/img/section/degraded.png": {
-    "file": "assets/degraded-C65r6xC2.png",
+    "file": "degraded.png",
     "src": "public/img/section/degraded.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-XSd_1V7e.css",
+    "file": "app.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "names": [
@@ -24,7 +24,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-C9RpgoZL.js",
+    "file": "app-C9RpgoZL.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
