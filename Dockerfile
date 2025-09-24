@@ -49,4 +49,4 @@ RUN php artisan view:cache
 EXPOSE 10000
 
 # Comando para producción
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=$PORT"]
