@@ -66,9 +66,44 @@
             </div>
         </section>
     </main>
-    <footer>
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Marca y Redes -->
+            <div class="footer-section">
+                <h2 class="footer-logo">OwnBrand</h2>
+                <p>Transforma tu estilo cada día con prendas seleccionadas especialmente para ti.</p>
+                <div class="footer-redes">
+                    <a href="#"><img src="/public/img/icons/facebook.svg" alt="Facebook"></a>
+                    <a href="#"><img src="/public/img/icons/instagram.svg" alt="Instagram"></a>
+                    <a href="#"><img src="/public/img/icons/twitter.svg" alt="Twitter"></a>
+                </div>
+            </div>
 
+            <!-- Enlaces útiles -->
+            <div class="footer-section">
+                <h3>Enlaces útiles</h3>
+                <ul>
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#search">Buscar Productos</a></li>
+                    <li><a href="#">Tienda</a></li>
+                    <li><a href="#">Perfil</a></li>
+                </ul>
+            </div>
+
+            <!-- Contacto -->
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>Email: <a href="mailto:hello@ownbrand.com">hello@ownbrand.com</a></p>
+                <p>Tel: +57 300 000 0000</p>
+                <p>Dirección: Bogotá, Colombia</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 OwnBrand. Todos los derechos reservados.</p>
+        </div>
     </footer>
+
 </body>
 
 </html>
