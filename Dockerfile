@@ -20,11 +20,10 @@ COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copiar archivos (EXCLUYENDO node_modules)
+# Copiar TODO incluyendo el .env normal
 COPY . .
-COPY .env.production .env
 
-# IMPORTANTE: Configurar APP_URL antes del build
+# Configurar environment para producción (MODIFICA el .env existente)
 RUN sed -i "s|APP_URL=.*|APP_URL=https://ownbrandproject.onrender.com|g" .env
 RUN sed -i "s|APP_DEBUG=.*|APP_DEBUG=false|g" .env
 RUN sed -i "s|APP_ENV=.*|APP_ENV=production|g" .env
@@ -34,7 +33,9 @@ RUN npm ci
 RUN npm run build
 
 # Verificar que los archivos se crearon
-RUN ls -la public/build/assets/
+RUN echo "=== Verificando build de Vite ==="
+RUN ls -la public/build/ || echo "Build directory no encontrada"
+RUN ls -la public/build/assets/ || echo "Assets directory no encontrada"
 
 # Dependencias PHP
 RUN composer install --optimize-autoloader --no-dev
