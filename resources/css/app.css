@@ -1,12 +1,4 @@
-@font-face {
-    font-family: 'OSR';
-    src: url('/font/OpenSauce/OpenSauceOne-Regular.ttf');
-}
-
-@font-face {
-    font-family: 'ROX';
-    src: url('/font/Roxborough/roxborough-cf-regular.otf');
-}
+@import url("./fonts.css");
 
 * {
     margin: 0;
@@ -81,7 +73,7 @@ nav {
 }
 
 .titulo {
-    margin: 5vh;
+    margin: 0 0 0 15vh ;
     color: #fff;
     font-size: 4rem;
     font-family: 'ROX';

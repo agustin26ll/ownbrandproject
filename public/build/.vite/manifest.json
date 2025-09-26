@@ -7,18 +7,26 @@
     "file": "assets/degraded.png",
     "src": "public/img/section/degraded.png"
   },
-  "resources/css/app.css": {
-    "file": "assets/app.css",
-    "src": "resources/css/app.css",
+  "resources/js/login.js": {
+    "file": "assets/js/login.js",
+    "name": "login",
+    "src": "resources/js/login.js",
     "isEntry": true,
-    "names": [
-      "app.css"
+    "css": [
+      "assets/css/login.css"
     ]
   },
-  "resources/js/app.js": {
-    "file": "assets/app2.js",
-    "name": "app",
-    "src": "resources/js/app.js",
-    "isEntry": true
+  "resources/js/main.js": {
+    "file": "assets/js/main.js",
+    "name": "main",
+    "src": "resources/js/main.js",
+    "isEntry": true,
+    "css": [
+      "assets/css/main.css"
+    ],
+    "assets": [
+      "assets/bg.jpg",
+      "assets/degraded.png"
+    ]
   }
 }

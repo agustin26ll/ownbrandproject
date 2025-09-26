@@ -5,8 +5,8 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
-                'resources/js/app.js'
+                'resources/js/main.js',
+                'resources/js/login.js'
             ],
             refresh: true,
         }),
@@ -17,13 +17,19 @@ export default defineConfig({
         assetsDir: 'assets',
         rollupOptions: {
             output: {
-                entryFileNames: 'assets/[name].js',
-                chunkFileNames: 'assets/[name].js',
+                entryFileNames: 'assets/js/[name].js',
+                chunkFileNames: 'assets/js/[name].js',
                 assetFileNames: (assetInfo) => {
                     const ext = assetInfo.name.split('.').pop();
+
                     if (ext === 'css') {
-                        return 'assets/[name].[ext]';
+                        return 'assets/css/[name].[ext]';
                     }
+
+                    if (['js', 'mjs'].includes(ext)) {
+                        return 'assets/js/[name].[ext]';
+                    }
+
                     return 'assets/[name].[ext]';
                 }
             }

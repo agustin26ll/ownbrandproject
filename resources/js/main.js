@@ -1,10 +1,11 @@
+import '../css/app.css';
+
 const gridProductos = document.getElementById("productosGrid");
 const inputBusqueda = document.getElementById("busqueda");
 
 let productos = [];
 let seleccionados = [];
 
-// Obtener productos de la Fake Store API oficial
 async function obtenerProductos() {
     const respuesta = await fetch("https://fakestoreapi.com/products");
     productos = await respuesta.json();
@@ -51,7 +52,6 @@ inputBusqueda.addEventListener("keyup", (evento) => {
     mostrarProductos(filtrados.slice(0, 6));
 });
 
-// Ejecutar al cargar
 obtenerProductos();
 
 

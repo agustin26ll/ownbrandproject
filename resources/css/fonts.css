@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'OSR';
+    src: url('/font/OpenSauce/OpenSauceOne-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'ROX';
+    src: url('/font/Roxborough/roxborough-cf-regular.otf');
+}
+
+/* @font-face {
+    font-family: 'OSR';
+    src: url('/public/font/OpenSauce/OpenSauceOne-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'ROX';
+    src: url('/public/font/Roxborough/roxborough-cf-regular.otf');
+} */

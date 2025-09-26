@@ -8,10 +8,10 @@
     <title>Bienvenido a OwnBrand</title>
 
     @if(env('APP_ENV') === 'production')
-    <link rel="stylesheet" href="https://ownbrandproject.onrender.com/build/assets/app.css">
-    <script src="https://ownbrandproject.onrender.com/build/assets/app2.js" defer></script>
+    <link rel="stylesheet" href="https://ownbrandproject.onrender.com/build/assets/css/app.css">
+    <script src="https://ownbrandproject.onrender.com/build/assets/js/main.js" defer></script>
     @else
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/js/main.js'])
     @endif
 </head>
 
