@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Bienvenido a OwnBrand</title>
+
     @if(env('APP_ENV') === 'production')
     <link rel="stylesheet" href="https://ownbrandproject.onrender.com/build/assets/app.css">
-    <script src="https://ownbrandproject.onrender.com/build/assets/app2.js" defer></script>
+    <script src="https://ownbrandproject.onrender.com/build/assets/app2git.js" defer></script>
     @else
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
@@ -25,6 +26,7 @@
                 <li><a href="#home">Inicio</a></li>
                 <li><a href="#search">Busqueda</a></li>
                 <li><a href="#">Tienda</a></li>
+                <li><a href="/login">Perfil</a></li>
             </ul>
         </nav>
 
@@ -63,7 +65,7 @@
 
                     <div class="fila-mitad">
                         <input type="email" id="correo" placeholder="Correo electrónico" required>
-                        <input type="number" id="edad" placeholder="Edad" min="18" max="100" style="width: 30%;" required>
+                        <input type="number" id="edad" placeholder="Edad" min="18" max="100" required>
                     </div>
 
                     <button type="submit">Enviar</button>
@@ -100,7 +102,7 @@
                 <h3>Contacto</h3>
                 <p>Email: <a href="mailto:hello@ownbrand.com">hello@ownbrand.com</a></p>
                 <p>Tel: +57 300 000 0000</p>
-                <p>Dirección: Bogotá, Colombia</p>
+                <p>Dirección: Medellín, Colombia</p>
             </div>
         </div>
 

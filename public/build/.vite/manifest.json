@@ -1,12 +1,4 @@
 {
-  "public/font/OpenSauce/OpenSauceOne-Regular.ttf": {
-    "file": "assets/OpenSauceOne-Regular.ttf",
-    "src": "public/font/OpenSauce/OpenSauceOne-Regular.ttf"
-  },
-  "public/font/Roxborough/roxborough-cf-regular.otf": {
-    "file": "assets/roxborough-cf-regular.otf",
-    "src": "public/font/Roxborough/roxborough-cf-regular.otf"
-  },
   "public/img/bg.jpg": {
     "file": "assets/bg.jpg",
     "src": "public/img/bg.jpg"
