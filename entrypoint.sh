@@ -1,26 +1,28 @@
 #!/bin/sh
 set -e
 
-echo ">>> Entrypoint iniciado"
+echo "=== Entrypoint OwnBrand iniciado ==="
 
-# Verificar APP_KEY
-if [ -z "$APP_KEY" ]; then
-    echo ">>> APP_KEY no está definido. Generando nueva key..."
-    php artisan key:generate --force || { echo "!!! Error al generar APP_KEY"; exit 1; }
+if [ ! -f storage/laravel.key ]; then
+    echo "[INFO] Generando APP_KEY..."
+    php artisan key:generate --force || { echo "[ERROR] Fallo generando APP_KEY"; exit 1; }
+    touch storage/laravel.key
 else
-    echo ">>> APP_KEY ya definido en el entorno"
+    echo "[INFO] APP_KEY ya existe, se omite key:generate."
 fi
 
-# Cache de configuración
-echo ">>> Cacheando configuración..."
-php artisan config:cache || { echo "!!! Error al cachear configuración"; exit 1; }
+echo "[INFO] Ejecutando package:discover..."
+php artisan package:discover --ansi || { echo "[ERROR] Fallo en package:discover"; exit 1; }
 
-echo ">>> Cacheando rutas..."
-php artisan route:cache || { echo "!!! Error al cachear rutas"; exit 1; }
+echo "[INFO] Cacheando configuración..."
+php artisan config:cache || { echo "[ERROR] Fallo en config:cache"; exit 1; }
 
-echo ">>> Cacheando vistas..."
-php artisan view:cache || { echo "!!! Error al cachear vistas"; exit 1; }
+echo "[INFO] Cacheando rutas..."
+php artisan route:cache || { echo "[ERROR] Fallo en route:cache"; exit 1; }
 
-echo ">>> Entrypoint finalizado correctamente"
+echo "[INFO] Cacheando vistas..."
+php artisan view:cache || { echo "[ERROR] Fallo en view:cache"; exit 1; }
+
+echo "=== Entrypoint finalizado correctamente ==="
 
 exec "$@"
