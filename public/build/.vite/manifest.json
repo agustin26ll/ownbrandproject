@@ -1,11 +1,11 @@
 {
-  "public/img/bg.jpg": {
-    "file": "assets/bg.jpg",
-    "src": "public/img/bg.jpg"
+  "public/img/bgIndex.webp": {
+    "file": "assets/bgIndex.webp",
+    "src": "public/img/bgIndex.webp"
   },
-  "public/img/section/degraded.png": {
-    "file": "assets/degraded.png",
-    "src": "public/img/section/degraded.png"
+  "public/img/section/degraded.webp": {
+    "file": "assets/degraded.webp",
+    "src": "public/img/section/degraded.webp"
   },
   "resources/js/login.js": {
     "file": "assets/js/login.js",
@@ -25,8 +25,8 @@
       "assets/css/main.css"
     ],
     "assets": [
-      "assets/bg.jpg",
-      "assets/degraded.png"
+      "assets/bgIndex.webp",
+      "assets/degraded.webp"
     ]
   }
 }

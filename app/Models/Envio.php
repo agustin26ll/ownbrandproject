@@ -10,11 +10,17 @@ class Envio extends Model
 
     protected $fillable = [
         'id',
+        'id_usuario',
         'nombre',
         'correo',
         'edad',
-        'ocupacion',
+        'ocupacion'
     ];
 
     public $timestamps = false;
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario');
+    }
 }

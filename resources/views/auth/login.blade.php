@@ -17,7 +17,7 @@
 
 <body>
     <section class="background_reg">
-        <img src="../../img/BgFormLogin.png" class="img-principal" alt="">
+        <img src="../../img/bgFormLogin.webp" class="img-principal" alt="">
     </section>
 
     <main class="contenedor_formulario">
@@ -40,7 +40,7 @@
             </div>
 
             <p style="text-align:center; margin-top:15px; font-size:0.9rem;">
-                ¿No tienes una cuenta? <a href="#" style="color:#4eb5d4;">Create una</a>
+                ¿No tienes una cuenta? <a href="/registrarse" style="color:#4eb5d4;">Create una</a>
             </p>
         </form>
     </main>

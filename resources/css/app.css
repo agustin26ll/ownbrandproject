@@ -8,7 +8,7 @@
 
 .encabezado {
     height: 100vh;
-    background-image: url('/public/img/bg.jpg');
+    background-image: url('/public/img/bgIndex.webp');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -149,7 +149,7 @@ nav {
     right: 0;
     bottom: -15vh;
     height: 50vh;
-    background-image: url('/public/img/section/degraded.png');
+    background-image: url('/public/img/section/degraded.webp');
     background-repeat: no-repeat;
     background-size: cover;
     pointer-events: none;

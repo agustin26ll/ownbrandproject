@@ -37,8 +37,8 @@
             </div>
             <div class="seccion_card">
                 <div class="img-wrapper">
-                    <img src="../img/header/IMG_001.png" class="img-principal" alt="">
-                    <img src="../img/header/IMG_002.png" class="img-secundaria" alt="">
+                    <img src="../img/header/IMG_001.webp" class="img-principal" alt="">
+                    <img src="../img/header/IMG_002.webp" class="img-secundaria" alt="">
                 </div>
             </div>
         </section>

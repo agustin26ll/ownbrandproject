@@ -16,8 +16,7 @@ class Usuario extends Model
         'nombre',
         'correo',
         'contrasenia',
-        'edad',
-        'ocupacion',
+        'edad'
     ];
 
     protected $hidden = [
@@ -25,4 +24,14 @@ class Usuario extends Model
     ];
 
     public $timestamps = false;
+
+    public function envios()
+    {
+        return $this->hasMany(Envio::class, 'id_usuario');
+    }
+
+    public function cajas()
+    {
+        return $this->hasMany(Caja::class, 'id_usuario');
+    }
 }

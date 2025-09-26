@@ -13,6 +13,7 @@ async function obtenerProductos() {
     mostrarProductos(productos.slice(0, 6));
 }
 
+
 function mostrarProductos(lista) {
     gridProductos.innerHTML = "";
 
@@ -26,12 +27,20 @@ function mostrarProductos(lista) {
         `;
 
         tarjeta.addEventListener("click", () => {
-            if (seleccionados.includes(producto.id)) {
-                seleccionados = seleccionados.filter(id => id !== producto.id);
+            const existe = seleccionados.find(p => p.id === producto.id);
+
+            if (existe) {
+                seleccionados = seleccionados.filter(p => p.id !== producto.id);
                 tarjeta.classList.remove("selected");
             } else {
                 if (seleccionados.length < 4) {
-                    seleccionados.push(producto.id);
+                    seleccionados.push({
+                        id: producto.id,
+                        title: producto.title,
+                        price: producto.price,
+                        category: producto.category,
+                        image: producto.image
+                    });
                     tarjeta.classList.add("selected");
                 } else {
                     alert("Máximo 4 productos seleccionados");
@@ -59,22 +68,43 @@ const formulario = document.getElementById("formularioDatos");
 
 formulario.addEventListener("submit", async (e) => {
     e.preventDefault();
+    
+    if (seleccionados.length === 0) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Selecciona al menos un producto',
+            confirmButtonColor: '#f0ad4e'
+        });
+        return;
+    }
 
     const datos = {
         nombre: document.getElementById("nombre").value,
         ocupacion: document.getElementById("ocupacion").value,
         correo: document.getElementById("correo").value,
-        edad: document.getElementById("edad").value
+        edad: document.getElementById("edad").value,
+        productos: seleccionados
     };
 
     try {
         const respuesta = await fetch('/api/contacto', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+
             body: JSON.stringify(datos)
         });
 
-        const data = await respuesta.json();
+        const text = await respuesta.text();
+        console.log(text);
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch {
+            console.error('No es JSON:', text);
+        }
 
         Swal.fire({
             icon: 'success',
@@ -84,6 +114,9 @@ formulario.addEventListener("submit", async (e) => {
         });
 
         formulario.reset();
+        seleccionados = [];
+        document.querySelectorAll(".product-card.selected").forEach(card => card.classList.remove("selected"));
+
     } catch (error) {
         console.error("Error al enviar datos:", error);
         Swal.fire({
@@ -94,6 +127,3 @@ formulario.addEventListener("submit", async (e) => {
         });
     }
 });
-
-
-

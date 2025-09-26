@@ -10,6 +10,6 @@ Route::get('/login', function () {
     return view('auth.login');
 });
 
-Route::get('/registro', function () {
+Route::get('/registrarse', function () {
     return view('auth.registro');
 });
