@@ -1,8 +1,11 @@
 # syntax=docker/dockerfile:1.6
 
+############################
+# Base PHP + Node
+############################
 FROM php:8.2-fpm-alpine AS base
 
-# Instalar dependencias
+# Instalar dependencias del sistema
 RUN apk add --no-cache \
     bash \
     git \
@@ -20,35 +23,35 @@ COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copiar TODO incluyendo el .env normal
+############################
+# Copiar archivos del proyecto
+# (excluye vendor, node_modules y .env con .dockerignore)
+############################
 COPY . .
 
-# Configurar environment para producción (MODIFICA el .env existente)
-RUN sed -i "s|APP_URL=.*|APP_URL=https://ownbrandproject.onrender.com|g" .env
-RUN sed -i "s|APP_DEBUG=.*|APP_DEBUG=false|g" .env
-RUN sed -i "s|APP_ENV=.*|APP_ENV=production|g" .env
-
-# Build de assets
-RUN npm ci
-RUN npm run build
-
-# Verificar que los archivos se crearon
-RUN echo "=== Verificando build de Vite ==="
-RUN ls -la public/build/ || echo "Build directory no encontrada"
-RUN ls -la public/build/assets/ || echo "Assets directory no encontrada"
-
+############################
 # Dependencias PHP
+############################
 RUN composer install --optimize-autoloader --no-dev
 
-# Configuración Laravel
-RUN php artisan key:generate --force
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
+############################
+# Dependencias Node y Build
+############################
+RUN npm ci && npm run build
 
+############################
+# Configuración Laravel
+############################
+RUN php artisan key:generate --force \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
+
+############################
 # Permisos
+############################
 RUN chmod -R 775 storage bootstrap/cache
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=8000"]git 
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
