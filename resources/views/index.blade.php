@@ -8,7 +8,7 @@
     <title>Bienvenido a OwnBrand</title>
 
     @if(env('APP_ENV') === 'production')
-    <link rel="stylesheet" href="https://ownbrandproject.onrender.com/build/assets/css/app.css">
+    <link rel="stylesheet" href="https://ownbrandproject.onrender.com/build/assets/css/main.css">
     <script src="https://ownbrandproject.onrender.com/build/assets/js/main.js" defer></script>
     @else
     @vite(['resources/js/main.js'])
