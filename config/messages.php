@@ -6,6 +6,6 @@ return [
         'login_exitoso' => 'Inicio de sesion exitoso'
     ],
     'envio' => [
-        'exitoso' => 'El correo se envió correctamente.',
+        'exitoso' => 'Tu caja fue creada y enviada a tu correo electrónico.',
     ],
 ];

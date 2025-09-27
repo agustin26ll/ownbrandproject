@@ -165,7 +165,13 @@ formulario.addEventListener("submit", async (e) => {
         ocupacion: ocupacion.value,
         correo: correo.value,
         edad: edad.value,
-        productos: seleccionados
+        productos: seleccionados.map(p => ({
+            id: p.id,
+            title: p.title,
+            price: p.price,
+            category: p.category,
+            image: p.image // aseguramos que la imagen se envíe al backend
+        }))
     };
 
     try {
@@ -178,30 +184,37 @@ formulario.addEventListener("submit", async (e) => {
             body: JSON.stringify(datos)
         });
 
-        if (respuesta.status === 422) {
-            const errorData = await respuesta.json();
-            const errores = errorData.errors;
+        const data = await respuesta.json();
 
-            Object.keys(errores).forEach(campo => {
-                const errorSpan = document.getElementById(`error-${campo}`);
-                if (errorSpan) {
-                    errorSpan.textContent = errores[campo][0];
-                    errorSpan.style.display = "block";
-                    errorSpan.parentElement.classList.add("error");
-
-                    setTimeout(() => {
-                        errorSpan.style.display = "none";
-                        errorSpan.textContent = "";
-                        errorSpan.parentElement.classList.remove("error");
-                    }, 5000);
-                }
-            });
-
+        if (!respuesta.ok) {
+            // Manejo de errores del backend
+            if (respuesta.status === 422 && data.errors) {
+                const errores = data.errors;
+                Object.keys(errores).forEach(campo => {
+                    const errorSpan = document.getElementById(`error-${campo}`);
+                    if (errorSpan) {
+                        errorSpan.textContent = errores[campo][0];
+                        errorSpan.style.display = "block";
+                        errorSpan.parentElement.classList.add("error");
+                        setTimeout(() => {
+                            errorSpan.style.display = "none";
+                            errorSpan.textContent = "";
+                            errorSpan.parentElement.classList.remove("error");
+                        }, 5000);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.mensaje || 'Hubo un error al enviar los datos',
+                    confirmButtonColor: '#d33'
+                });
+            }
             return;
         }
 
-        const data = await respuesta.json();
-
+        // Si todo salió bien
         Swal.fire({
             icon: 'success',
             title: '¡Perfecto!',
@@ -223,3 +236,4 @@ formulario.addEventListener("submit", async (e) => {
         });
     }
 });
+

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Providers\JwtService;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\UnprocessableEntityException;
+use App\Mail\EnvioProductosMail;
 use App\Models\Caja;
 use App\Models\Categoria;
 use App\Models\Producto;
@@ -69,7 +70,6 @@ class UsuarioController extends Controller
             ], 500);
         }
     }
-
     public function enviarCorreo(Request $request)
     {
         $datos = $request->validate([
@@ -82,60 +82,68 @@ class UsuarioController extends Controller
             'productos.*.title' => 'required|string',
             'productos.*.price' => 'required|numeric',
             'productos.*.category' => 'required|string',
+            'productos.*.image' => 'nullable|string',
         ]);
 
-        DB::beginTransaction();
-
         try {
-            $usuario = Usuario::where('correo', $datos['correo'])->first();
+            DB::transaction(function () use ($datos) {
 
-            $envio = Envio::create([
-                'id_usuario' => $usuario?->id,
-                'nombre' => $datos['nombre'],
-                'ocupacion' => $datos['ocupacion'],
-                'correo' => $datos['correo'],
-                'edad' => $datos['edad'],
-            ]);
+                $usuario = Usuario::where('correo', $datos['correo'])->first();
 
-            $numeroCaja = Caja::whereHas('envio', function ($query) use ($datos) {
-                $query->where('correo', $datos['correo']);
-            })->count() + 1;
+                $envio = Envio::create([
+                    'id_usuario' => $usuario?->id,
+                    'nombre' => $datos['nombre'],
+                    'ocupacion' => $datos['ocupacion'],
+                    'correo' => $datos['correo'],
+                    'edad' => $datos['edad'],
+                ]);
 
-            $nombreCaja = "Caja de intereses " . str_pad($numeroCaja, 3, '0', STR_PAD_LEFT);
+                $numeroCaja = Caja::whereHas('envio', function ($query) use ($datos) {
+                    $query->where('correo', $datos['correo']);
+                })->count() + 1;
 
-            $caja = Caja::create([
-                'id_usuario' => $usuario?->id,
-                'id_envio' => $envio->id,
-                'nombre' => $nombreCaja,
-                'fecha_creacion' => now(),
-            ]);
+                $nombreCaja = "Caja de intereses " . str_pad($numeroCaja, 3, '0', STR_PAD_LEFT);
 
-            $productosIds = [];
-            foreach ($datos['productos'] as $producto) {
-                $categoria = Categoria::firstOrCreate(['nombre' => $producto['category']]);
+                $caja = Caja::create([
+                    'id_usuario' => $usuario?->id,
+                    'id_envio' => $envio->id,
+                    'nombre' => $nombreCaja,
+                    'fecha_creacion' => now(),
+                ]);
 
-                $productoModel = Producto::firstOrCreate(
-                    ['api_id' => $producto['id']],
-                    [
-                        'nombre' => $producto['title'],
-                        'precio' => $producto['price'],
-                        'id_categoria' => $categoria->id
-                    ]
-                );
+                $productosIds = [];
+                foreach ($datos['productos'] as $producto) {
+                    $categoria = Categoria::firstOrCreate(['nombre' => $producto['category']]);
 
-                $productosIds[] = $productoModel->id;
-            }
+                    $productoModel = Producto::firstOrCreate(
+                        ['api_id' => $producto['id']],
+                        [
+                            'nombre' => $producto['title'],
+                            'precio' => $producto['price'],
+                            'id_categoria' => $categoria->id
+                        ]
+                    );
 
-            $caja->productos()->attach($productosIds);
+                    $productosIds[] = $productoModel->id;
+                }
 
-            DB::commit();
+                $caja->productos()->attach($productosIds);
+            }, 5);
+
+            DB::afterCommit(function () use ($datos) {
+                Mail::to($datos['correo'])->send(new EnvioProductosMail([
+                    'nombre' => $datos['nombre'],
+                    'productos' => $datos['productos'],
+                ]));
+            });
 
             return response()->json([
                 'mensaje' => config('messages.envio.exitoso')
             ], 201);
         } catch (\Throwable $e) {
-            DB::rollBack();
-            Log::error('Error al enviar correo: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            Log::error('Error al enviar correo: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
 
             return response()->json([
                 'mensaje' => 'Ocurrió un error al procesar el envío',
@@ -143,6 +151,7 @@ class UsuarioController extends Controller
             ], 500);
         }
     }
+
 
     public function iniciarSesion(Request $request)
     {
