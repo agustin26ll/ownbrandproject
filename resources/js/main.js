@@ -13,7 +13,6 @@ async function obtenerProductos() {
     mostrarProductos(productos.slice(0, 6));
 }
 
-
 function mostrarProductos(lista) {
     gridProductos.innerHTML = "";
 
@@ -43,7 +42,11 @@ function mostrarProductos(lista) {
                     });
                     tarjeta.classList.add("selected");
                 } else {
-                    alert("Máximo 4 productos seleccionados");
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Máximo 4 productos seleccionados',
+                        confirmButtonColor: '#f0ad4e'
+                    });
                 }
             }
         });
@@ -63,12 +66,91 @@ inputBusqueda.addEventListener("keyup", (evento) => {
 
 obtenerProductos();
 
-
 const formulario = document.getElementById("formularioDatos");
+const nombre = document.getElementById("nombre");
+const ocupacion = document.getElementById("ocupacion");
+const correo = document.getElementById("correo");
+const edad = document.getElementById("edad");
+
+const expresiones = {
+    texto: /^[a-zA-ZÀ-ÿ\s]{6,40}$/,
+    correo: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+};
+
+function validarInput(input, tipo) {
+    const wrapper = input.parentElement;
+    const errorSpan = wrapper.querySelector(".error-message");
+    let valido = true;
+
+    if (tipo === "texto") {
+        if (!expresiones.texto.test(input.value.trim())) {
+            errorSpan.textContent = "Solo se permiten letras y espacios, mínimo 6 caracteres.";
+            wrapper.classList.add("error");
+            valido = false;
+        } else {
+            errorSpan.textContent = "";
+            wrapper.classList.remove("error");
+        }
+    }
+
+    if (tipo === "correo") {
+        if (!expresiones.correo.test(input.value.trim())) {
+            errorSpan.textContent = "Ingresa un correo válido (ej: usuario@dominio.com).";
+            wrapper.classList.add("error");
+            valido = false;
+        } else {
+            errorSpan.textContent = "";
+            wrapper.classList.remove("error");
+        }
+    }
+
+    if (tipo === "edad") {
+        const valor = parseInt(input.value, 10);
+        if (isNaN(valor) || valor < 18 || valor > 100) {
+            errorSpan.textContent = "Ingresa un número válido entre 18 y 100.";
+            wrapper.classList.add("error");
+            valido = false;
+        } else {
+            errorSpan.textContent = "";
+            wrapper.classList.remove("error");
+        }
+    }
+
+    return valido;
+}
+
+[nombre, ocupacion, correo, edad].forEach(input => {
+    input.addEventListener("input", () => {
+        if (input === nombre || input === ocupacion) validarInput(input, "texto");
+        if (input === correo) validarInput(input, "correo");
+        if (input === edad) validarInput(input, "edad");
+    });
+
+    input.addEventListener("blur", () => {
+        if (input === nombre || input === ocupacion) validarInput(input, "texto");
+        if (input === correo) validarInput(input, "correo");
+        if (input === edad) validarInput(input, "edad");
+    });
+});
+
 
 formulario.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
+    const nombreValido = validarInput(nombre, "texto");
+    const ocupacionValido = validarInput(ocupacion, "texto");
+    const correoValido = validarInput(correo, "correo");
+    const edadValida = validarInput(edad, "edad");
+
+    if (!nombreValido || !ocupacionValido || !correoValido || !edadValida) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Corrige los errores en el formulario',
+            confirmButtonColor: '#f0ad4e'
+        });
+        return;
+    }
+
     if (seleccionados.length === 0) {
         Swal.fire({
             icon: 'warning',
@@ -79,10 +161,10 @@ formulario.addEventListener("submit", async (e) => {
     }
 
     const datos = {
-        nombre: document.getElementById("nombre").value,
-        ocupacion: document.getElementById("ocupacion").value,
-        correo: document.getElementById("correo").value,
-        edad: document.getElementById("edad").value,
+        nombre: nombre.value,
+        ocupacion: ocupacion.value,
+        correo: correo.value,
+        edad: edad.value,
         productos: seleccionados
     };
 
@@ -93,18 +175,32 @@ formulario.addEventListener("submit", async (e) => {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-
             body: JSON.stringify(datos)
         });
 
-        const text = await respuesta.text();
-        console.log(text);
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch {
-            console.error('No es JSON:', text);
+        if (respuesta.status === 422) {
+            const errorData = await respuesta.json();
+            const errores = errorData.errors;
+
+            Object.keys(errores).forEach(campo => {
+                const errorSpan = document.getElementById(`error-${campo}`);
+                if (errorSpan) {
+                    errorSpan.textContent = errores[campo][0];
+                    errorSpan.style.display = "block";
+                    errorSpan.parentElement.classList.add("error");
+
+                    setTimeout(() => {
+                        errorSpan.style.display = "none";
+                        errorSpan.textContent = "";
+                        errorSpan.parentElement.classList.remove("error");
+                    }, 5000);
+                }
+            });
+
+            return;
         }
+
+        const data = await respuesta.json();
 
         Swal.fire({
             icon: 'success',

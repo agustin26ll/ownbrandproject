@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/58e42bf76d.js" crossorigin="anonymous"></script>
     <title>Bienvenido a OwnBrand</title>
 
     @if(env('APP_ENV') === 'production')
@@ -59,13 +60,25 @@
                     conocer mas informacion</h2>
                 <form id="formularioDatos">
                     <div class="fila-mitad">
-                        <input type="text" id="nombre" placeholder="Nombre" required>
-                        <input type="text" id="ocupacion" placeholder="Ocupación" required>
+                        <div class="input-wrapper">
+                            <input type="text" id="nombre" placeholder="Nombre" required>
+                            <span class="error-message" id="error-nombre"></span>
+                        </div>
+                        <div class="input-wrapper">
+                            <input type="text" id="ocupacion" placeholder="Ocupación" required>
+                            <span class="error-message" id="error-ocupacion"></span>
+                        </div>
                     </div>
 
                     <div class="fila-mitad">
-                        <input type="email" id="correo" placeholder="Correo electrónico" required>
-                        <input type="number" id="edad" placeholder="Edad" min="18" max="100" required>
+                        <div class="input-wrapper">
+                            <input type="email" id="correo" placeholder="Correo electrónico" required>
+                            <span class="error-message" id="error-correo"></span>
+                        </div>
+                        <div class="input-wrapper">
+                            <input type="number" id="edad" placeholder="Edad" min="18" max="100" required>
+                            <span class="error-message" id="error-edad"></span>
+                        </div>
                     </div>
 
                     <button type="submit">Enviar</button>
@@ -80,9 +93,9 @@
                 <h2 class="footer-logo">OwnBrand</h2>
                 <p>Transforma tu estilo cada día con prendas seleccionadas especialmente para ti.</p>
                 <div class="footer-redes">
-                    <a href="#"><img src="/public/img/icons/facebook.svg" alt="Facebook"></a>
-                    <a href="#"><img src="/public/img/icons/instagram.svg" alt="Instagram"></a>
-                    <a href="#"><img src="/public/img/icons/twitter.svg" alt="Twitter"></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-x"></i></a>
                 </div>
             </div>
 

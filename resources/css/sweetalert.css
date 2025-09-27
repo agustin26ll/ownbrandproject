@@ -1,0 +1,28 @@
+
+.swal2-popup {
+    font-family: 'OSR', sans-serif !important;
+    border-radius: 1vh !important;
+    padding: 2vh !important;
+}
+
+.swal2-title {
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+}
+
+.swal2-html-container {
+    font-size: 1rem !important;
+    color: #333 !important;
+}
+
+.swal2-confirm {
+    font-family: 'OSR', sans-serif !important;
+    padding: 0.8em 1.5em !important;
+    border-radius: 1vh !important;
+}
+
+.swal2-cancel {
+    font-family: 'OSR', sans-serif !important;
+    padding: 0.8em 1.5em !important;
+    border-radius: 1vh !important;
+}
