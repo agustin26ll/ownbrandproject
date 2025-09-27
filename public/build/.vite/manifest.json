@@ -28,5 +28,14 @@
       "assets/bgIndex.webp",
       "assets/degraded.webp"
     ]
+  },
+  "resources/js/registro.js": {
+    "file": "assets/js/registro.js",
+    "name": "registro",
+    "src": "resources/js/registro.js",
+    "isEntry": true,
+    "css": [
+      "assets/css/registro.css"
+    ]
   }
 }

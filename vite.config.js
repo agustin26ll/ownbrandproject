@@ -6,7 +6,8 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/js/main.js',
-                'resources/js/login.js'
+                'resources/js/login.js',
+                'resources/js/registro.js'
             ],
             refresh: true,
         }),
