@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Caja;
 use App\Models\Envio;
 use App\Models\Usuario;
+use App\Models\Producto;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Providers\JwtService;
-use Illuminate\Support\Facades\Hash;
-use App\Exceptions\UnprocessableEntityException;
 use App\Mail\EnvioProductosMail;
-use App\Models\Caja;
-use App\Models\Categoria;
-use App\Models\Producto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class UsuarioController extends Controller
 {
-    protected $jwt;
+    protected $jwtService;
 
-    public function __construct(JwtService $jwt)
+    public function __construct(JwtService $jwtService)
     {
-        $this->jwt = $jwt;
+        $this->jwtService = $jwtService;
     }
 
     public function registro(Request $request)
@@ -64,7 +64,7 @@ class UsuarioController extends Controller
 
             DB::commit();
 
-            $token = $this->jwt->crearToken([
+            $token = $this->jwtService->encode([
                 'sub' => $usuario->id
             ]);
 
@@ -190,10 +190,8 @@ class UsuarioController extends Controller
             ], 422);
         }
 
-        $token = $this->jwt->crearToken([
-            'sub' => $usuario->id,
-            'correo' => $usuario->correo,
-            'nombre' => $usuario->nombre
+        $token = $this->jwtService->encode([
+            'sub' => $usuario->id
         ]);
 
         return response()->json([
@@ -205,6 +203,15 @@ class UsuarioController extends Controller
 
     public function consultarToken(Request $request)
     {
-        return response()->json($request->jwt_user);
+        /** @var Usuario $usuario */
+        $usuario = Auth::user();
+
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+
+        $usuarioConRelaciones = Usuario::with(['cajas.productos', 'envios'])->find($usuario->id);
+
+        return response()->json($usuarioConRelaciones);
     }
 }

@@ -1,5 +1,10 @@
 import '../css/login.css';
 
+const token = localStorage.getItem('token');
+if (token) {
+    window.location.href = '/perfil';
+}
+
 const togglePassword = document.querySelector("#togglePassword");
 const password = document.querySelector("#contrasenia");
 
@@ -9,6 +14,7 @@ togglePassword.addEventListener("click", () => {
     togglePassword.classList.toggle("fa-eye");
     togglePassword.classList.toggle("fa-eye-slash");
 });
+
 
 const formulario = document.getElementById("formularioDatos");
 
@@ -28,8 +34,7 @@ formulario.addEventListener("submit", async (e) => {
         });
 
         const data = await respuesta.json();
-        console.log(data);
-        
+
         if (respuesta.status === 422) {
             Swal.fire({
                 icon: 'warning',

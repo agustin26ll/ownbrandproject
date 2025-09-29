@@ -2,41 +2,70 @@
 
 namespace App\Providers;
 
+use DomainException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use Illuminate\Support\Str;
-use Illuminate\Support\ServiceProvider;
+use UnexpectedValueException;
+use Firebase\JWT\ExpiredException;
+use Firebase\JWT\SignatureInvalidException;
+use App\Exceptions\UnprocessableEntityException;
 
-class JwtService extends ServiceProvider
+class JwtService
 {
-    protected $claveSecreta;
-    protected $expiracion;
-    protected $tokenRefrescado;
+    private string $key;
+    private string $algorithm;
+    private array $mensajesAuth;
+    private string $labelMensaje;
 
     public function __construct()
     {
-        $this->claveSecreta = env('JWT_SECRET');
-        $this->expiracion = intval(env('JWT_TTL', 3600));
-        $this->tokenRefrescado = intval(env('JWT_REFRESH_TTL', 86400));
+        $this->key = $this->validarJWTSecret(config('config.jwt_secret'));
+        $this->algorithm = config('config.jwt_algoritmo');
+        $this->mensajesAuth = config('messages.autenticacion');
+        $this->labelMensaje = config('config.label_mensaje');
     }
 
-    public function crearToken(array $claims = []): string
+    private function validarJWTSecret(?string $secret): string
     {
-        $hora = time();
+        if (empty($secret)) {
+            throw new \RuntimeException('JWT_SECRET no está configurado');
+        }
 
-        $payload = array_merge([
-            'iss' => config('app.url'),
-            'iat' => $hora,
-            'nbf' => $hora,
-            'exp' => $hora + $this->expiracion,
-            'jti' => Str::uuid()->toString(),
-        ], $claims);
-
-        return JWT::encode($payload, $this->claveSecreta, 'HS256');
+        return $secret;
     }
 
-    public function verificarToken(string $token): object
+    public function encode(array $data): string
     {
-        return JWT::decode($token, new Key($this->claveSecreta, 'HS256'));
+        try {
+            return JWT::encode($data, $this->key, $this->algorithm);
+        } catch (\Exception $e) {
+            throw new UnprocessableEntityException([
+                $this->labelMensaje => $this->mensajesAuth['error_creacion']
+            ]);
+        }
+    }
+
+    public function validate(string $token): array
+    {
+        try {
+            $decoded = JWT::decode($token, new Key($this->key, $this->algorithm));
+            return (array) $decoded;
+        } catch (ExpiredException $e) {
+            throw new UnprocessableEntityException([
+                $this->labelMensaje => $this->mensajesAuth['expirado']
+            ]);
+        } catch (SignatureInvalidException $e) {
+            throw new UnprocessableEntityException([
+                $this->labelMensaje => $this->mensajesAuth['invalido']
+            ]);
+        } catch (DomainException | UnexpectedValueException $e) {
+            throw new UnprocessableEntityException([
+                $this->labelMensaje => $this->mensajesAuth['malformado']
+            ]);
+        } catch (\Exception $e) {
+            throw new UnprocessableEntityException([
+                $this->labelMensaje => $this->mensajesAuth['error']
+            ]);
+        }
     }
 }

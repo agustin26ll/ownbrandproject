@@ -200,7 +200,6 @@ formulario.addEventListener("submit", async (e) => {
         const data = await respuesta.json();
 
         if (!respuesta.ok) {
-            // Manejo de errores del backend
             if (respuesta.status === 422 && data.errors) {
                 const errores = data.errors;
                 Object.keys(errores).forEach(campo => {
@@ -227,7 +226,6 @@ formulario.addEventListener("submit", async (e) => {
             return;
         }
 
-        // Si todo salió bien
         Swal.fire({
             icon: 'success',
             title: '¡Perfecto!',
@@ -249,3 +247,33 @@ formulario.addEventListener("submit", async (e) => {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token');
+    const perfilLink = document.getElementById('perfilLink');
+
+    if (!token) {
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/usuario', {
+            headers: {
+                'X-Api-Token': token,
+                'Accept': 'application/json'
+            }
+        });
+
+        const user = await res.json();
+
+        if (perfilLink) {
+            perfilLink.innerHTML = `<i class="fa fa-user"></i> ${user.nombre}`;
+            perfilLink.href = '/perfil';
+        }
+
+    } catch (error) {
+        console.error(error);
+        localStorage.removeItem('token');
+    }
+});
+

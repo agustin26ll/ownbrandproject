@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 
-class Usuario extends Model
+class Usuario extends Model implements Authenticatable
 {
     use AuthenticatableTrait;
 
@@ -24,6 +25,11 @@ class Usuario extends Model
     ];
 
     public $timestamps = false;
+
+    public function getAuthPassword()
+    {
+        return $this->contrasenia;
+    }
 
     public function envios()
     {

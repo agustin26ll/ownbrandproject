@@ -3,41 +3,53 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Exception;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use App\Providers\JwtService;
-use Firebase\JWT\ExpiredException;
-use Firebase\JWT\SignatureInvalidException;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class JwtMiddleware
 {
-    protected $jwt;
+    protected $jwtService;
+    private $mensajesAuth;
+    private $mensajesUsuario;
+    private $labelMensaje;
 
-    public function __construct(JwtService $jwt)
+    public function __construct(JwtService $jwtService)
     {
-        $this->jwt = $jwt;
+        $this->jwtService = $jwtService;
+        $this->mensajesAuth = config('messages.autenticacion');
+        $this->mensajesUsuario = config('messages.usuario');
+        $this->labelMensaje = config('config.label_mensaje');
     }
 
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        try {
-            $token = $request->bearerToken();
+        $token = $request->header('X-Api-Token');
 
-            if (!$token) {
-                return response()->json(['error' => 'Token no encontrado'], 401);
+        if (!$token) {
+            return response()->json([$this->labelMensaje => $this->mensajesAuth['no_proporcionado']], 401);
+        }
+
+        try {
+            $payload = $this->jwtService->validate($token);
+
+            if (!$payload || !isset($payload['sub'])) {
+                return response()->json([$this->labelMensaje => $this->mensajesAuth['expirado']], 401);
             }
 
-            $decoded = $this->jwt->verificarToken($token);
+            $usuario = Usuario::find($payload['sub']);
 
-            $request->merge(['jwt_user' => $decoded]);
-        } catch (ExpiredException $e) {
-            return response()->json(['error' => 'Token expirado'], 401);
-        } catch (SignatureInvalidException $e) {
-            return response()->json(['error' => 'Firma inválida'], 401);
+            if (!$usuario) {
+                return response()->json([$this->labelMensaje => $this->mensajesUsuario['no_encontrado']], 401);
+            }
+
+            Auth::setUser($usuario);
+            $request->attributes->set('jwt_payload', $usuario);
+
+            return $next($request);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Token inválido'], 401);
+            return response()->json([$this->labelMensaje => $this->mensajesAuth['invalido']], 401);
         }
-        return $next($request);
     }
 }

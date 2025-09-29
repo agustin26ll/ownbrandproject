@@ -1,5 +1,10 @@
 import '../css/registro.css';
 
+const token = localStorage.getItem('token');
+if (token) {
+    window.location.href = '/perfil';
+}
+
 const formulario = document.getElementById("formularioDatos");
 const nombre = document.getElementById("nombre");
 const correo = document.getElementById("correo");
