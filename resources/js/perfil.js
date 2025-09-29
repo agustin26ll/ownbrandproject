@@ -1,10 +1,19 @@
 import '../css/perfil.css';
 
+const token = localStorage.getItem('token');
+if (!token) {
+    window.location.href = '/login';
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     const loginLink = document.getElementById('loginLink');
     const logoutLink = document.getElementById('logoutLink');
     const userName = document.getElementById('userName');
-    const contenidoUsuario = document.getElementById('contenidoUsuario');
+
+    const profileName = document.getElementById('profileName');
+    const profileEmail = document.getElementById('profileEmail');
+    const profileAvatar = document.querySelector('.profile-avatar');
+
     const cajasContainer = document.getElementById('cajasContainer');
     const enviosContainer = document.getElementById('enviosContainer');
 
@@ -41,42 +50,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     try {
-        // Mostrar loader mientras cargan datos
-        showLoader(contenidoUsuario);
         showLoader(cajasContainer);
         showLoader(enviosContainer);
 
         const usuario = await fetchConToken('/api/usuario');
-
-        // Datos generales del usuario
         userName.textContent = usuario.nombre;
-        contenidoUsuario.innerHTML = `
-            <h2>Datos del usuario:</h2>
-            <p><strong>Nombre:</strong> ${usuario.nombre}</p>
-            <p><strong>Correo:</strong> ${usuario.correo}</p>
-            <p><strong>Edad:</strong> ${usuario.edad}</p>
-        `;
+        profileName.textContent = usuario.nombre;
+        profileEmail.textContent = usuario.correo;
 
-        // Mostrar cajas con productos
-        cajasContainer.innerHTML = '<h2>Mis cajas:</h2>';
-        usuario.cajas.forEach(caja => {
-            const div = document.createElement('div');
-            div.classList.add('card');
+        if (profileAvatar) {
+            const nombreCodificado = encodeURIComponent(usuario.nombre);
+            profileAvatar.src = `https://ui-avatars.com/api/?name=${nombreCodificado}&background=random&color=fff&size=128&bold=true`;
+            profileAvatar.alt = `Avatar de ${usuario.nombre}`;
+        }
 
-            const productos = caja.productos.map(p => p.nombre).join(', ');
+        cajasContainer.innerHTML = '<h2>Mis Cajas</h2>';
+        if (!usuario.cajas || usuario.cajas.length === 0) {
+            cajasContainer.innerHTML += '<p>No tienes cajas registradas.</p>';
+        } else {
+            usuario.cajas.forEach(caja => {
+                const div = document.createElement('div');
+                div.classList.add('caja-card');
 
-            div.innerHTML = `
-                <h3>${caja.nombre}</h3>
-                <p>Tipo de caja: ${caja.id_tipo_caja}</p>
-                <p>Contenido: ${productos}</p>
-            `;
+                const productos = caja.productos.map(p => p.nombre).join(', ');
 
-            cajasContainer.appendChild(div);
-        });
+                div.innerHTML = `
+                    <h3>${caja.nombre}</h3>
+                    <p>Tipo de caja: ${caja.id_tipo_caja}</p>
+                    <p>Contenido: ${productos}</p>
+                    <div class="progreso">
+                        <div class="barra" style="width: ${Math.min(100, caja.progreso || 0)}%"></div>
+                    </div>
+                    <button class="btn-ver">Ver detalles</button>
+                `;
+                cajasContainer.appendChild(div);
+            });
+        }
 
-        // Mostrar envíos del usuario
-        enviosContainer.innerHTML = '<h2>Mis envíos:</h2>';
-        if (usuario.envios.length === 0) {
+        enviosContainer.innerHTML = '<h2>Historial de Envíos</h2>';
+        if (!usuario.envios || usuario.envios.length === 0) {
             enviosContainer.innerHTML += '<p>No tienes envíos registrados.</p>';
         } else {
             usuario.envios.forEach(envio => {
@@ -84,11 +96,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 div.classList.add('card');
 
                 div.innerHTML = `
-                    <p><strong>Nombre:</strong> ${envio.nombre}</p>
-                    <p><strong>Correo:</strong> ${envio.correo}</p>
-                    <p><strong>Edad:</strong> ${envio.edad}</p>
+                    <h3>Envío #${envio.id}</h3>
+                    <p><strong>Estado:</strong> ${envio.estado}</p>
+                    <p><strong>Fecha:</strong> ${envio.fecha}</p>
                 `;
-
                 enviosContainer.appendChild(div);
             });
         }

@@ -16,6 +16,7 @@
 </head>
 
 <body>
+    <!-- HEADER -->
     <header>
         <div class="logo">OwnBrand</div>
         <nav>
@@ -27,12 +28,74 @@
         </nav>
     </header>
 
-    <main>
-        <h1>Bienvenido a tu panel</h1>
-        <div id="contenidoUsuario"></div>
-        <div id="cajasContainer"></div>
-        <div id="enviosContainer"></div> <!-- <-- Agregado -->
+    <!-- DASHBOARD -->
+    <main class="dashboard">
+        <!-- Columna principal -->
+        <div class="dashboard-main">
+            <h1>Bienvenido a tu panel</h1>
+
+            <!-- Cajas -->
+            <section id="cajasContainer">
+                <h2>Mis Cajas</h2>
+            </section>
+
+            <!-- Envíos -->
+            <section id="enviosContainer">
+                <h2>Historial de Envíos</h2>
+            </section>
+        </div>
+
+        <!-- Sidebar Perfil -->
+        <aside class="dashboard-profile card">
+            <div class="profile-header">
+                <img src="" alt="Avatar" class="profile-avatar">
+                <h2 id="profileName"></h2>
+                <p id="profileEmail"></p>
+            </div>
+            <div class="profile-actions">
+                <button class="btn-primary">Editar Perfil</button>
+                <button class="btn-secondary" id="logoutBtn">Cerrar sesión</button>
+            </div>
+        </aside>
     </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Marca -->
+            <div class="footer-section">
+                <h2 class="footer-logo">OwnBrand</h2>
+                <p>Transforma tu estilo cada día con prendas seleccionadas especialmente para ti.</p>
+                <div class="footer-redes">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-x"></i></a>
+                </div>
+            </div>
+
+            <!-- Enlaces -->
+            <div class="footer-section">
+                <h3>Enlaces útiles</h3>
+                <ul>
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#search">Buscar Productos</a></li>
+                    <li><a href="#">Tienda</a></li>
+                    <li><a href="#">Perfil</a></li>
+                </ul>
+            </div>
+
+            <!-- Contacto -->
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>Email: <a href="mailto:hello@ownbrand.com">hello@ownbrand.com</a></p>
+                <p>Tel: +57 300 000 0000</p>
+                <p>Dirección: Medellín, Colombia</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 OwnBrand. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 </body>
 
 </html>
