@@ -16,7 +16,6 @@
 </head>
 
 <body>
-    <!-- HEADER -->
     <header>
         <div class="logo">OwnBrand</div>
         <nav>
@@ -28,24 +27,19 @@
         </nav>
     </header>
 
-    <!-- DASHBOARD -->
     <main class="dashboard">
-        <!-- Columna principal -->
         <div class="dashboard-main">
             <h1>Bienvenido a tu panel</h1>
 
-            <!-- Cajas -->
             <section id="cajasContainer">
                 <h2>Mis Cajas</h2>
             </section>
 
-            <!-- Envíos -->
             <section id="enviosContainer">
                 <h2>Historial de Envíos</h2>
             </section>
         </div>
 
-        <!-- Sidebar Perfil -->
         <aside class="dashboard-profile card">
             <div class="profile-header">
                 <img src="" alt="Avatar" class="profile-avatar">
@@ -54,15 +48,12 @@
             </div>
             <div class="profile-actions">
                 <button class="btn-primary">Editar Perfil</button>
-                <button class="btn-secondary" id="logoutBtn">Cerrar sesión</button>
             </div>
         </aside>
     </main>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-container">
-            <!-- Marca -->
             <div class="footer-section">
                 <h2 class="footer-logo">OwnBrand</h2>
                 <p>Transforma tu estilo cada día con prendas seleccionadas especialmente para ti.</p>
@@ -73,7 +64,6 @@
                 </div>
             </div>
 
-            <!-- Enlaces -->
             <div class="footer-section">
                 <h3>Enlaces útiles</h3>
                 <ul>
@@ -84,7 +74,6 @@
                 </ul>
             </div>
 
-            <!-- Contacto -->
             <div class="footer-section">
                 <h3>Contacto</h3>
                 <p>Email: <a href="mailto:hello@ownbrand.com">hello@ownbrand.com</a></p>
