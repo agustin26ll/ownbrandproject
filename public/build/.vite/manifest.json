@@ -29,6 +29,15 @@
       "assets/degraded.webp"
     ]
   },
+  "resources/js/perfil.js": {
+    "file": "assets/js/perfil.js",
+    "name": "perfil",
+    "src": "resources/js/perfil.js",
+    "isEntry": true,
+    "css": [
+      "assets/css/perfil.css"
+    ]
+  },
   "resources/js/registro.js": {
     "file": "assets/js/registro.js",
     "name": "registro",

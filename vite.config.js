@@ -7,7 +7,8 @@ export default defineConfig({
             input: [
                 'resources/js/main.js',
                 'resources/js/login.js',
-                'resources/js/registro.js'
+                'resources/js/registro.js',
+                'resources/js/perfil.js'
             ],
             refresh: true,
         }),
