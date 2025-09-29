@@ -29,7 +29,7 @@ class UsuarioController extends Controller
     {
         $datos = $request->validate([
             'nombre' => 'required|string',
-            'correo' => 'required|email|unique:usuario',
+            'correo' => 'required|email',
             'contrasenia' => 'required|min:6',
             'edad' => 'required'
         ]);
@@ -37,6 +37,14 @@ class UsuarioController extends Controller
         DB::beginTransaction();
 
         try {
+            $usuarioExistente = Usuario::where('correo', $datos['correo'])->exists();
+
+            if ($usuarioExistente) {
+                return response()->json([
+                    'mensaje' => config('messages.usuario.email_existente')
+                ], 422);
+            }
+
             $usuario = Usuario::create([
                 'nombre' => $datos['nombre'],
                 'correo' => $datos['correo'],
@@ -161,7 +169,6 @@ class UsuarioController extends Controller
         }
     }
 
-
     public function iniciarSesion(Request $request)
     {
         $datos = $request->validate([
@@ -171,19 +178,30 @@ class UsuarioController extends Controller
 
         $usuario = Usuario::where('correo', $datos['correo'])->first();
 
-        if (!$usuario || !Hash::check($datos['contrasenia'], $usuario->contrasenia)) {
-            throw new UnprocessableEntityException(['mensaje' => 'Credenciales invalidas']);
+        if (!$usuario) {
+            return response()->json([
+                'mensaje' => 'El correo no está registrado'
+            ], 422);
+        }
+
+        if (!Hash::check($datos['contrasenia'], $usuario->contrasenia)) {
+            return response()->json([
+                'mensaje' => 'Credenciales inválidas'
+            ], 422);
         }
 
         $token = $this->jwt->crearToken([
             'sub' => $usuario->id,
+            'correo' => $usuario->correo,
+            'nombre' => $usuario->nombre
         ]);
 
         return response()->json([
             'token' => $token,
-            'mensaje' => config('messages.usuario.login_exitoso')
+            'mensaje' => 'Inicio de sesión exitoso'
         ]);
     }
+
 
     public function consultarToken(Request $request)
     {

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicia sesion en OwnBrand</title>
     <script src="https://kit.fontawesome.com/58e42bf76d.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @if(env('APP_ENV') === 'production')
     <link rel="stylesheet" href="https://ownbrandproject.onrender.com/build/assets/css/login.css">

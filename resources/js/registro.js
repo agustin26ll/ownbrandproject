@@ -17,24 +17,32 @@ function validarInput(input, tipo) {
     let valido = true;
     let mensaje = "";
 
-    if (tipo === "texto" && !expresiones.texto.test(input.value.trim())) {
-        mensaje = "Solo letras y espacios, mínimo 6 caracteres.";
-        valido = false;
-    }
-    if (tipo === "correo" && !expresiones.correo.test(input.value.trim())) {
-        mensaje = "Correo inválido (ej: usuario@dominio.com).";
-        valido = false;
-    }
-    if (tipo === "contrasenia" && !expresiones.contrasenia.test(input.value.trim())) {
-        mensaje = "La contraseña debe tener entre 6 y 20 caracteres.";
-        valido = false;
-    }
-    if (tipo === "edad") {
-        const valor = parseInt(input.value, 10);
-        if (isNaN(valor) || valor < 18 || valor > 100) {
-            mensaje = "Edad válida entre 18 y 100.";
-            valido = false;
-        }
+    switch (tipo) {
+        case "texto":
+            if (!expresiones.texto.test(input.value.trim())) {
+                mensaje = "Solo letras y espacios, mínimo 6 caracteres.";
+                valido = false;
+            }
+            break;
+        case "correo":
+            if (!expresiones.correo.test(input.value.trim())) {
+                mensaje = "Correo inválido (ej: usuario@dominio.com).";
+                valido = false;
+            }
+            break;
+        case "contrasenia":
+            if (!expresiones.contrasenia.test(input.value.trim())) {
+                mensaje = "La contraseña debe tener entre 6 y 20 caracteres.";
+                valido = false;
+            }
+            break;
+        case "edad":
+            const valor = parseInt(input.value, 10);
+            if (isNaN(valor) || valor < 18 || valor > 100) {
+                mensaje = "Edad válida entre 18 y 100.";
+                valido = false;
+            }
+            break;
     }
 
     const wrapper = input.parentElement;
@@ -44,32 +52,22 @@ function validarInput(input, tipo) {
         errorSpan.textContent = mensaje;
         wrapper.classList.add("error");
     } else {
-        wrapper.classList.remove("error");
         errorSpan.textContent = "";
+        wrapper.classList.remove("error");
     }
 
     return valido;
 }
 
 togglePassword.addEventListener("click", () => {
-    const tipo = contrasenia.getAttribute("type") === "password" ? "text" : "password";
-    contrasenia.setAttribute("type", tipo);
+    const tipo = contrasenia.type === "password" ? "text" : "password";
+    contrasenia.type = tipo;
     togglePassword.classList.toggle("fa-eye-slash");
 });
 
 [nombre, correo, contrasenia, edad].forEach(input => {
-    input.addEventListener("input", () => {
-        if (input === nombre) validarInput(input, "texto");
-        if (input === correo) validarInput(input, "correo");
-        if (input === contrasenia) validarInput(input, "contrasenia");
-        if (input === edad) validarInput(input, "edad");
-    });
-    input.addEventListener("blur", () => {
-        if (input === nombre) validarInput(input, "texto");
-        if (input === correo) validarInput(input, "correo");
-        if (input === contrasenia) validarInput(input, "contrasenia");
-        if (input === edad) validarInput(input, "edad");
-    });
+    input.addEventListener("input", () => validarInput(input, input.id === "nombre" ? "texto" : input.id));
+    input.addEventListener("blur", () => validarInput(input, input.id === "nombre" ? "texto" : input.id));
 });
 
 formulario.addEventListener("submit", async (e) => {
@@ -103,10 +101,33 @@ formulario.addEventListener("submit", async (e) => {
             body: JSON.stringify(datos)
         });
 
-        const data = await respuesta.json();
+        let data;
+        try {
+            data = await respuesta.json();
+        } catch {
+            const texto = await respuesta.text();
+            console.error("Respuesta no JSON:", texto);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error inesperado',
+                text: 'El servidor respondió algo que no es JSON',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
 
-        if (!respuesta.ok) {
-            if (respuesta.status === 422 && data.errors) {
+        if (respuesta.status === 422) {
+            if (data.mensaje) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error',
+                    text: data.mensaje,
+                    confirmButtonColor: '#f0ad4e'
+                });
+                return;
+            }
+
+            if (data.errors) {
                 Object.keys(data.errors).forEach(campo => {
                     const input = document.getElementById(campo);
                     const wrapper = input.parentElement;
@@ -120,14 +141,17 @@ formulario.addEventListener("submit", async (e) => {
                         }, 5000);
                     }
                 });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: data.mensaje || 'Error al registrar',
-                    confirmButtonColor: '#d33'
-                });
             }
+            return;
+        }
+
+        if (!respuesta.ok) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: data.mensaje || 'Error al registrar',
+                confirmButtonColor: '#d33'
+            });
             return;
         }
 
@@ -144,8 +168,10 @@ formulario.addEventListener("submit", async (e) => {
             input.parentElement.querySelector(".error-message").textContent = "";
         });
 
+        localStorage.setItem('token', data.token);
+
     } catch (error) {
-        console.error(error);
+        console.error("Error al enviar datos:", error);
         Swal.fire({
             icon: 'error',
             title: 'Oops...',

@@ -27,7 +27,8 @@
                 <li><a href="#home">Inicio</a></li>
                 <li><a href="#search">Busqueda</a></li>
                 <li><a href="#">Tienda</a></li>
-                <li><a href="/login">Perfil</a></li>
+                <li><a href="/login" id="perfilLink">Perfil</a></li>
+                <li><a href="#" id="logout" style="display:none">Cerrar sesión</a></li>
             </ul>
         </nav>
 
