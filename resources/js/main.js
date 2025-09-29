@@ -71,6 +71,8 @@ const nombre = document.getElementById("nombre");
 const ocupacion = document.getElementById("ocupacion");
 const correo = document.getElementById("correo");
 const edad = document.getElementById("edad");
+const tipoCaja = document.getElementById("tipoCaja");
+const frecuenciaCaja = document.getElementById("frecuenciaCaja");
 
 const expresiones = {
     texto: /^[a-zA-ZÀ-ÿ\s]{6,40}$/,
@@ -160,17 +162,28 @@ formulario.addEventListener("submit", async (e) => {
         return;
     }
 
+    if (!tipoCaja.value || !frecuenciaCaja.value) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Selecciona tipo de caja y frecuencia',
+            confirmButtonColor: '#f0ad4e'
+        });
+        return;
+    }
+
     const datos = {
         nombre: nombre.value,
         ocupacion: ocupacion.value,
         correo: correo.value,
         edad: edad.value,
+        tipoCaja: tipoCaja.value,
+        frecuenciaCaja: frecuenciaCaja.value,
         productos: seleccionados.map(p => ({
             id: p.id,
             title: p.title,
             price: p.price,
             category: p.category,
-            image: p.image // aseguramos que la imagen se envíe al backend
+            image: p.image
         }))
     };
 

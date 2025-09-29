@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/58e42bf76d.js" crossorigin="anonymous"></script>
     <title>Crea una nueva cuenta en OwnBrand</title>
     @if(env('APP_ENV') === 'production')
@@ -23,31 +24,35 @@
 <main class="contenedor_formulario">
     <form id="formularioDatos">
         <h2>Ingresa tus datos para comenzar</h2>
-        <input type="name" id="nombre" placeholder="Nombre completo" required>
-        <input type="email" id="correo" placeholder="Correo electrónico" required>
+        <div class="input_wrapper">
+            <input type="text" id="nombre" placeholder="Nombre completo" required>
+            <span class="error-message" id="error-nombre"></span>
+        </div>
+        <div class="input_wrapper">
+            <input type="email" id="correo" placeholder="Correo electrónico" required>
+            <span class="error-message" id="error-correo"></span>
+        </div>
         <div class="grupo_input fila_dos_inputs">
             <div class="input_wrapper">
                 <input type="password" id="contrasenia" placeholder="Contraseña" required>
                 <i class="fa-solid fa-eye" id="togglePassword"></i>
+                <span class="error-message" id="error-contrasenia"></span>
             </div>
             <div class="input_wrapper">
                 <input type="number" id="edad" placeholder="Edad" min="18" max="100" required>
+                <span class="error-message" id="error-edad"></span>
             </div>
         </div>
-
-        <button type="submit">Continuar <i class="fa-solid fa-arrow-right"></i></button>
-
-        <div class="or-divider">Siguenos en nuestras redes sociales</div>
-
+        <button type="submit">Continuar
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <div class="or-divider">Síguenos en nuestras redes sociales</div>
         <div class="social-login">
             <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="#"><i class="fa-brands fa-instagram"></i></a>
             <a href="#"><i class="fa-brands fa-x"></i></a>
         </div>
-
-        <p style="text-align:center; margin-top:15px; font-size:0.9rem;">
-            ¿Ya tienes una cuenta? <a href="/login" style="color:#4eb5d4;">Ingresa aquí</a>
-        </p>
+        <p style="text-align:center; margin-top:15px; font-size:0.9rem;"> ¿Ya tienes una cuenta? <a href="/login" style="color:#4eb5d4;">Ingresa aquí</a> </p>
     </form>
 </main>
 <div class="boton_flotante">

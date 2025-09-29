@@ -31,6 +31,7 @@ class UsuarioController extends Controller
             'nombre' => 'required|string',
             'correo' => 'required|email|unique:usuario',
             'contrasenia' => 'required|min:6',
+            'edad' => 'required'
         ]);
 
         DB::beginTransaction();
@@ -40,6 +41,7 @@ class UsuarioController extends Controller
                 'nombre' => $datos['nombre'],
                 'correo' => $datos['correo'],
                 'contrasenia' => Hash::make($datos['contrasenia']),
+                'edad' => $datos['edad'],
             ]);
 
             Caja::where('id_usuario', null)
@@ -70,14 +72,17 @@ class UsuarioController extends Controller
             ], 500);
         }
     }
+
     public function enviarCorreo(Request $request)
     {
         $datos = $request->validate([
             'nombre' => 'required|string',
             'ocupacion' => 'required|string',
             'correo' => 'required|email',
-            'edad' => 'required|integer',
-            'productos' => 'required|array',
+            'edad' => 'required|integer|min:18|max:100',
+            'tipoCaja' => 'required|string|exists:tipo_caja,id',
+            'frecuenciaCaja' => 'required|string|exists:frecuencia_caja,id',
+            'productos' => 'required|array|min:1',
             'productos.*.id' => 'required|integer',
             'productos.*.title' => 'required|string',
             'productos.*.price' => 'required|numeric',
@@ -92,10 +97,11 @@ class UsuarioController extends Controller
 
                 $envio = Envio::create([
                     'id_usuario' => $usuario?->id,
+                    'id_frecuencia' => $datos['frecuenciaCaja'],
                     'nombre' => $datos['nombre'],
-                    'ocupacion' => $datos['ocupacion'],
                     'correo' => $datos['correo'],
                     'edad' => $datos['edad'],
+                    'ocupacion' => $datos['ocupacion'],
                 ]);
 
                 $numeroCaja = Caja::whereHas('envio', function ($query) use ($datos) {
@@ -107,8 +113,9 @@ class UsuarioController extends Controller
                 $caja = Caja::create([
                     'id_usuario' => $usuario?->id,
                     'id_envio' => $envio->id,
+                    'id_tipo_caja' => $datos['tipoCaja'],
                     'nombre' => $nombreCaja,
-                    'fecha_creacion' => now(),
+                    'fecha_creacion' => now()
                 ]);
 
                 $productosIds = [];
@@ -134,6 +141,8 @@ class UsuarioController extends Controller
                 Mail::to($datos['correo'])->send(new EnvioProductosMail([
                     'nombre' => $datos['nombre'],
                     'productos' => $datos['productos'],
+                    'tipoCaja' => $datos['tipoCaja'],
+                    'frecuenciaCaja' => $datos['frecuenciaCaja'],
                 ]));
             });
 

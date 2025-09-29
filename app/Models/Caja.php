@@ -12,6 +12,7 @@ class Caja extends Model
         'id',
         'id_usuario',
         'id_envio',
+        'id_tipo_caja',
         'nombre',
         'fecha_creacion'
     ];

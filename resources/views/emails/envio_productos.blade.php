@@ -177,8 +177,7 @@
             <div class="productos">
                 @foreach ($productos as $producto)
                 <div class="producto">
-                    <img src="{{ $producto['image'] ?? 'https://via.placeholder.com/150' }}"
-                        alt="{{ $producto['title'] }}">
+                    <img src="{{ $producto['image'] }}" alt="{{ $producto['title'] }}">
                     <p><strong>{{ $producto['title'] }}</strong></p>
                     <p>{{ $producto['category'] }}</p>
                     <p class="precio">${{ number_format($producto['price'], 2) }}</p>

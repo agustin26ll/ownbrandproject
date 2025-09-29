@@ -11,6 +11,7 @@ class Envio extends Model
     protected $fillable = [
         'id',
         'id_usuario',
+        'id_frecuencia',
         'nombre',
         'correo',
         'edad',

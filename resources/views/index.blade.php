@@ -46,6 +46,60 @@
     </header>
     <div class="transicion"></div>
     <main>
+        <section class="seccion_planes" id="planes">
+            <div class="planes-container">
+                <div class="planes-info">
+                    <h2 class="titulo">Conoce nuestros planes</h2>
+                    <p class="texto">A continuación te mostramos los tipos de cajas que ofrecemos y la frecuencia de envío disponible para que elijas la que más te convenga.</p>
+
+                    <div class="cards-tipos">
+                        <div class="card-tipo" id="card-standard">
+                            <h3>Standard</h3>
+                            <p>Incluye:</p>
+                            <ul>
+                                <li>1 Camisa</li>
+                                <li>1 Pantalón</li>
+                                <li>2 Accesorios</li>
+                            </ul>
+                            <p>Ideal si quieres recibir lo esencial para tu estilo.</p>
+                        </div>
+
+                        <div class="card-tipo" id="card-premium">
+                            <h3>Premium</h3>
+                            <p>Incluye:</p>
+                            <ul>
+                                <li>1 Camisa</li>
+                                <li>1 Pantalón</li>
+                                <li>3 Accesorios</li>
+                                <li>1 Par de Zapatos</li>
+                            </ul>
+                            <p>Perfecta si quieres un look completo y accesorios adicionales.</p>
+                        </div>
+                    </div>
+
+                    <div class="cards-frecuencia">
+                        <div class="card-frec" id="frec-mensual">
+                            <h4>Mensual</h4>
+                            <p>Recibe una caja cada mes.</p>
+                        </div>
+                        <div class="card-frec" id="frec-bimensual">
+                            <h4>Bimensual</h4>
+                            <p>Recibe una caja cada dos meses.</p>
+                        </div>
+                        <div class="card-frec" id="frec-temporada">
+                            <h4>Por temporada</h4>
+                            <p>Recibe una caja por temporada (aprox. cada 3 meses).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="planes-imagen">
+                    <img src="https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg" alt="Caja OwnBrand" class="imagen-animada">
+                </div>
+            </div>
+        </section>
+
+
         <section class="seccion_personal" id="search">
             <div class="seccion_ropa">
                 <h1>Selecciona la ropa de tu interés</h1>
@@ -56,9 +110,32 @@
             </div>
 
             <div class="seccion_formulario">
-                <h2>Ingresa tus datos para
-                    conocer mas informacion</h2>
+                <h2>Ingresa tus datos para conocer más información</h2>
                 <form id="formularioDatos">
+
+                    <!-- Nuevos inputs: Tipo de Caja y Frecuencia -->
+                    <div class="fila-mitad">
+                        <div class="input-wrapper">
+                            <label for="tipoCaja">Tipo de Caja</label>
+                            <select id="tipoCaja" required>
+                                <option value="" disabled selected>Selecciona un tipo</option>
+                                <option value="1">Standard</option>
+                                <option value="2">Premium</option>
+                            </select>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <label for="frecuenciaCaja">Frecuencia de envío</label>
+                            <select id="frecuenciaCaja" required>
+                                <option value="" disabled selected>Selecciona la frecuencia</option>
+                                <option value="1">Mensual</option>
+                                <option value="2">Bimensual</option>
+                                <option value="3">Por temporada</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Datos personales -->
                     <div class="fila-mitad">
                         <div class="input-wrapper">
                             <input type="text" id="nombre" placeholder="Nombre" required>
@@ -85,6 +162,7 @@
                 </form>
             </div>
         </section>
+
     </main>
     <footer class="footer">
         <div class="footer-container">
