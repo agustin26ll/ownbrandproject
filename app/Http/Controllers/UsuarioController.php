@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\EstadoEnvio;
 use App\Models\Caja;
 use App\Models\Envio;
 use App\Models\Usuario;
@@ -105,6 +106,7 @@ class UsuarioController extends Controller
 
                 $envio = Envio::create([
                     'id_usuario' => $usuario?->id,
+                    'id_estado' => EstadoEnvio::PREPARADO->value,
                     'id_frecuencia' => $datos['frecuenciaCaja'],
                     'nombre' => $datos['nombre'],
                     'correo' => $datos['correo'],
@@ -201,7 +203,7 @@ class UsuarioController extends Controller
     }
 
 
-    public function consultarToken(Request $request)
+    public function consultarToken()
     {
         /** @var Usuario $usuario */
         $usuario = Auth::user();

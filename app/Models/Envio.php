@@ -11,6 +11,7 @@ class Envio extends Model
     protected $fillable = [
         'id',
         'id_usuario',
+        'id_estado',
         'id_frecuencia',
         'nombre',
         'correo',
@@ -23,5 +24,10 @@ class Envio extends Model
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');
+    }
+
+    public function estado()
+    {
+        return $this->belongsTo(EstadoEnvio::class, 'id_estado');
     }
 }

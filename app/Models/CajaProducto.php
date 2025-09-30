@@ -9,6 +9,7 @@ class CajaProducto extends Model
     protected $table = 'caja_producto';
 
     protected $fillable = [
+        'id',
         'id_caja',
         'id_producto'
     ];
