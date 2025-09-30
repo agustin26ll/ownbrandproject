@@ -1,23 +1,20 @@
 import '../css/perfil.css';
+import { EstadoEnvio, FrecuenciaCaja } from '../js/enums.js';
 
 const token = localStorage.getItem('token');
-if (!token) {
-    window.location.href = '/login';
-}
+if (!token) window.location.href = '/login';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const loginLink = document.getElementById('loginLink');
     const logoutLink = document.getElementById('logoutLink');
     const userName = document.getElementById('userName');
-
     const profileName = document.getElementById('profileName');
     const profileEmail = document.getElementById('profileEmail');
     const profileAvatar = document.querySelector('.profile-avatar');
-
     const cajasContainer = document.getElementById('cajasContainer');
-    const enviosContainer = document.getElementById('enviosContainer');
 
     const showLoader = (container) => {
+        if (!container) return;
         container.innerHTML = `<div class="loader">Cargando...</div>`;
     };
 
@@ -26,83 +23,81 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/login';
     });
 
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-        loginLink.style.display = 'inline';
-        logoutLink.style.display = 'none';
-        return;
-    }
-
-    loginLink.style.display = 'none';
-    logoutLink.style.display = 'inline';
+    loginLink.style.display = token ? 'none' : 'inline';
+    logoutLink.style.display = token ? 'inline' : 'none';
 
     const fetchConToken = async (url) => {
         const res = await fetch(url, {
-            headers: {
-                'X-Api-Token': token,
-                'Accept': 'application/json'
-            }
+            headers: { 'X-Api-Token': token, 'Accept': 'application/json' }
         });
-
         if (!res.ok) throw new Error('Error en la petición o token inválido');
         return res.json();
     };
 
+    const sanitize = (str) => (str == null ? '' : String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;'));
+
     try {
         showLoader(cajasContainer);
-        showLoader(enviosContainer);
-
         const usuario = await fetchConToken('/api/usuario');
-        userName.textContent = usuario.nombre;
-        profileName.textContent = usuario.nombre;
-        profileEmail.textContent = usuario.correo;
+
+        userName.textContent = usuario.nombre || '';
+        profileName.textContent = usuario.nombre || '';
+        profileEmail.textContent = usuario.correo || '';
 
         if (profileAvatar) {
-            const nombreCodificado = encodeURIComponent(usuario.nombre);
+            const nombreCodificado = encodeURIComponent(usuario.nombre || 'Usuario');
             profileAvatar.src = `https://ui-avatars.com/api/?name=${nombreCodificado}&background=random&color=fff&size=128&bold=true`;
-            profileAvatar.alt = `Avatar de ${usuario.nombre}`;
+            profileAvatar.alt = `Avatar de ${usuario.nombre || 'Usuario'}`;
         }
 
-        cajasContainer.innerHTML = '<h2>Mis Cajas</h2>';
+        cajasContainer.innerHTML = '';
+
         if (!usuario.cajas || usuario.cajas.length === 0) {
-            cajasContainer.innerHTML += '<p>No tienes cajas registradas.</p>';
-        } else {
-            usuario.cajas.forEach(caja => {
-                const div = document.createElement('div');
-                div.classList.add('caja-card');
+            cajasContainer.innerHTML = '<p>No tienes cajas registradas.</p>';
+            return;
+        }
 
-                const productos = caja.productos.map(p => p.nombre).join(', ');
+        usuario.cajas.forEach(caja => {
+            const div = document.createElement('div');
+            div.classList.add('caja-card');
 
-                div.innerHTML = `
-                    <h3>${caja.nombre}</h3>
-                    <p>Tipo de caja: ${caja.id_tipo_caja}</p>
-                    <p>Contenido: ${productos}</p>
-                    <div class="progreso">
-                        <div class="barra" style="width: ${Math.min(100, caja.progreso || 0)}%"></div>
+            const productos = Array.isArray(caja.productos)
+                ? caja.productos.map(p => sanitize(p.nombre)).join(', ')
+                : '—';
+
+            // Estado de la caja según el envío relacionado
+            const envioRelacionado = usuario.envios.find(e => e.id === caja.id_envio);
+            const estadoCajaLabel = envioRelacionado ? EstadoEnvio[envioRelacionado.id_estado] : 'Preparado';
+            const frecuenciaLabel = FrecuenciaCaja[caja.id_tipo_caja] || '—';
+
+            let inner = `
+                <h3>${sanitize(caja.nombre || 'Caja')}</h3>
+                <p><strong>Frecuencia:</strong> ${sanitize(frecuenciaLabel)}</p>
+                <p><strong>Contenido:</strong> ${productos}</p>
+                <p><strong>Estado Caja:</strong> <span class="estado ${estadoCajaLabel.toLowerCase()}">${sanitize(estadoCajaLabel)}</span></p>
+            `;
+
+            // Mostrar envíos relacionados
+            if (envioRelacionado) {
+                inner += `
+                    <div class="envio-info">
+                        <p><strong>Envío #${sanitize(envioRelacionado.id)}</strong></p>
+                        <p>Nombre: ${sanitize(envioRelacionado.nombre)}</p>
+                        <p>Fecha: ${sanitize(envioRelacionado.fecha ?? '—')}</p>
+                        <p><strong>Estado Envío:</strong> <span class="estado ${EstadoEnvio[envioRelacionado.id_estado].toLowerCase()}">${sanitize(EstadoEnvio[envioRelacionado.id_estado])}</span></p>
                     </div>
-                    <button class="btn-ver">Ver detalles</button>
                 `;
-                cajasContainer.appendChild(div);
-            });
-        }
+            }
 
-        enviosContainer.innerHTML = '<h2>Historial de Envíos</h2>';
-        if (!usuario.envios || usuario.envios.length === 0) {
-            enviosContainer.innerHTML += '<p>No tienes envíos registrados.</p>';
-        } else {
-            usuario.envios.forEach(envio => {
-                const div = document.createElement('div');
-                div.classList.add('card');
-
-                div.innerHTML = `
-                    <h3>Envío #${envio.id}</h3>
-                    <p><strong>Estado:</strong> ${envio.estado}</p>
-                    <p><strong>Fecha:</strong> ${envio.fecha}</p>
-                `;
-                enviosContainer.appendChild(div);
-            });
-        }
+            inner += `<button class="btn-ver">Ver detalles</button>`;
+            div.innerHTML = inner;
+            cajasContainer.appendChild(div);
+        });
 
     } catch (error) {
         console.error(error);
@@ -112,8 +107,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             title: 'Sesión inválida',
             text: 'Por favor inicia sesión de nuevo',
             confirmButtonColor: '#d33'
-        }).then(() => {
-            window.location.href = '/login';
-        });
+        }).then(() => window.location.href = '/login');
     }
 });

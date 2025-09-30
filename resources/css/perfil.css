@@ -53,9 +53,6 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-/* =====================
-   DASHBOARD LAYOUT
-===================== */
 .dashboard {
     display: grid;
     grid-template-columns: 3fr 1fr;
@@ -69,9 +66,12 @@ nav a:hover {
     margin-bottom: 20px;
 }
 
-/* =====================
-   PERFIL SIDEBAR
-===================== */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .dashboard-profile {
     position: sticky;
     top: 100px;
@@ -93,41 +93,25 @@ nav a:hover {
     gap: 10px;
 }
 
-.btn-primary,
-.btn-secondary {
-    padding: 10px;
+.btn-primary {
+    padding: 10px 16px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
-}
-
-.btn-primary {
+    font-size: 0.95rem;
     background: #007bff;
     color: #fff;
-}
-
-.btn-secondary {
-    background: #1a2a44;
-    color: #ccc;
 }
 
 .btn-primary:hover {
     background: #0056b3;
 }
 
-.btn-secondary:hover {
-    background: #243b66;
-}
-
-/* =====================
-   CAJAS CARDS
-===================== */
-#cajasContainer {
+.cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
-    margin-bottom: 40px;
 }
 
 .caja-card {
@@ -136,6 +120,9 @@ nav a:hover {
     padding: 20px;
     transition: transform 0.3s ease;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .caja-card:hover {
@@ -146,13 +133,15 @@ nav a:hover {
 .caja-card h3 {
     font-size: 1.2rem;
     color: #007bff;
-    margin-bottom: 10px;
 }
 
 .estado {
     font-weight: bold;
     padding: 3px 8px;
     border-radius: 6px;
+    font-size: 0.85rem;
+    display: inline-block;
+    width: fit-content;
 }
 
 .estado.preparado {
@@ -165,23 +154,9 @@ nav a:hover {
     color: #fff;
 }
 
-.estado.entregado {
+.estado.recibido {
     background: #28a745;
     color: #fff;
-}
-
-.progreso {
-    margin: 15px 0;
-    height: 8px;
-    background: #243b66;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.progreso .barra {
-    height: 100%;
-    background: #007bff;
-    transition: width 0.4s ease;
 }
 
 .btn-ver {
@@ -192,6 +167,7 @@ nav a:hover {
     padding: 8px 12px;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .btn-ver:hover {
@@ -322,7 +298,7 @@ nav a:hover {
         margin-top: 30px;
     }
 
-    #cajasContainer {
+    .cards-container {
         grid-template-columns: 1fr;
     }
 
@@ -346,7 +322,6 @@ nav a:hover {
     }
 }
 
-/* 📲 Tablets */
 @media (min-width: 768px) and (max-width: 1099px) {
     header {
         padding: 20px 40px;
@@ -365,7 +340,7 @@ nav a:hover {
         font-size: 1.4rem;
     }
 
-    #cajasContainer {
+    .cards-container {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
 
@@ -381,7 +356,6 @@ nav a:hover {
     }
 }
 
-/* 💻 Escritorio */
 @media (min-width: 1100px) {
     header {
         padding: 20px 60px;
@@ -396,7 +370,7 @@ nav a:hover {
         padding: 60px 5%;
     }
 
-    #cajasContainer {
+    .cards-container {
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     }
 

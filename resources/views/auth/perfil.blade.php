@@ -31,12 +31,14 @@
         <div class="dashboard-main">
             <h1>Bienvenido a tu panel</h1>
 
-            <section id="cajasContainer">
-                <h2>Mis Cajas</h2>
-            </section>
+            <section id="cajasEnviosContainer">
+                <div class="section-header">
+                    <h2>Mis cajas</h2>
+                    <button class="btn-primary">Crear Caja</button>
+                </div>
+                <div class="cards-container" id="cajasContainer">
 
-            <section id="enviosContainer">
-                <h2>Historial de Envíos</h2>
+                </div>
             </section>
         </div>
 
