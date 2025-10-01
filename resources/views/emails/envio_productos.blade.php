@@ -185,7 +185,7 @@
                 @endforeach
             </div>
 
-            <a href="https://ownbrandproject.onrender.com/planes" class="button">Descubre más cajas</a>
+            <a href="https://ownbrandproject.onrender.com/#search" class="button">Descubre más cajas</a>
 
             <p class="footer">Gracias por confiar en <strong>{{ config('app.name') }}</strong>.</p>
         </div>

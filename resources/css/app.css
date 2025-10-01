@@ -80,6 +80,7 @@ nav {
     font-family: 'ROX';
     opacity: 0;
     animation: fadeInUp 1.2s ease forwards;
+    text-align: center;
 }
 
 .seccion_card {

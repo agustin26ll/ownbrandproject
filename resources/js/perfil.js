@@ -70,26 +70,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ? caja.productos.map(p => sanitize(p.nombre)).join(', ')
                 : '—';
 
-            // Estado de la caja según el envío relacionado
             const envioRelacionado = usuario.envios.find(e => e.id === caja.id_envio);
             const estadoCajaLabel = envioRelacionado ? EstadoEnvio[envioRelacionado.id_estado] : 'Preparado';
             const frecuenciaLabel = FrecuenciaCaja[caja.id_tipo_caja] || '—';
 
             let inner = `
                 <h3>${sanitize(caja.nombre || 'Caja')}</h3>
-                <p><strong>Frecuencia:</strong> ${sanitize(frecuenciaLabel)}</p>
-                <p><strong>Contenido:</strong> ${productos}</p>
-                <p><strong>Estado Caja:</strong> <span class="estado ${estadoCajaLabel.toLowerCase()}">${sanitize(estadoCajaLabel)}</span></p>
+                <p>Frecuencia: ${sanitize(frecuenciaLabel)}</p>
+                <p>Contenido: ${productos}</p>
             `;
 
-            // Mostrar envíos relacionados
             if (envioRelacionado) {
                 inner += `
                     <div class="envio-info">
-                        <p><strong>Envío #${sanitize(envioRelacionado.id)}</strong></p>
-                        <p>Nombre: ${sanitize(envioRelacionado.nombre)}</p>
-                        <p>Fecha: ${sanitize(envioRelacionado.fecha ?? '—')}</p>
-                        <p><strong>Estado Envío:</strong> <span class="estado ${EstadoEnvio[envioRelacionado.id_estado].toLowerCase()}">${sanitize(EstadoEnvio[envioRelacionado.id_estado])}</span></p>
+                        <p>Envío Nº ${sanitize(envioRelacionado.id)}</p>
+                        <p>Fecha:${sanitize(caja.fecha_creacion ?? '—')}</p>
+                        <p>Estado Envío: <span class="estado ${EstadoEnvio[envioRelacionado.id_estado].toLowerCase()}">${sanitize(EstadoEnvio[envioRelacionado.id_estado])}</span></p>
                     </div>
                 `;
             }

@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <header class="encabezado">
+    <header class="encabezado" id="home">
         <!-- NAV -->
         <nav>
             <div class="logo">
@@ -26,7 +26,7 @@
             <ul class="menu">
                 <li><a href="#home">Inicio</a></li>
                 <li><a href="#search">Busqueda</a></li>
-                <li><a href="#">Tienda</a></li>
+                <li><a href="#contact">Contáctanos</a></li>
                 <li><a href="/login" id="perfilLink">Perfil</a></li>
                 <li><a href="#" id="logout" style="display:none">Cerrar sesión</a></li>
             </ul>
@@ -35,7 +35,7 @@
         <!-- HERO -->
         <section class="seccion_hero">
             <div class="hero_titulo">
-                <h1 class="titulo">Tu estilo siempre en transformación</h1>
+                <h1 class="titulo">Tu estilo siempre con ATREVIMIENTO</h1>
             </div>
             <div class="seccion_card">
                 <div class="img-wrapper">
@@ -184,14 +184,13 @@
                 <ul>
                     <li><a href="#home">Inicio</a></li>
                     <li><a href="#search">Buscar Productos</a></li>
-                    <li><a href="#">Tienda</a></li>
-                    <li><a href="#">Perfil</a></li>
+                    <li><a href="/perfil">Perfil</a></li>
                 </ul>
             </div>
 
             <!-- Contacto -->
             <div class="footer-section">
-                <h3>Contacto</h3>
+                <h3 id="contact">Contacto</h3>
                 <p>Email: <a href="mailto:hello@ownbrand.com">hello@ownbrand.com</a></p>
                 <p>Tel: +57 300 000 0000</p>
                 <p>Dirección: Medellín, Colombia</p>
