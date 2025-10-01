@@ -28,6 +28,74 @@
             <span id="userName" style="margin-left:15px"></span>
         </nav>
     </header>
+    <section class="seccion_personal" id="tienda">
+        <div class="seccion_ropa">
+            <h1>Selecciona la ropa de tu interés</h1>
+
+            <input type="text" id="busqueda" class="search_bar" placeholder="Buscar productos...">
+
+            <div class="grid" id="productosGrid"></div>
+        </div>
+
+        <div class="seccion_formulario">
+            <h2>Ingresa tus datos</h2>
+            <form id="formularioDatos">
+                <!-- Tipo de Caja y Frecuencia -->
+                <div class="fila-mitad">
+                    <div class="input-wrapper">
+                        <label for="tipoCaja">Tipo de Caja</label>
+                        <select id="tipoCaja" required>
+                            <option value="" disabled selected>Selecciona un tipo</option>
+                            <option value="1">Standard</option>
+                            <option value="2">Premium</option>
+                        </select>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <label for="frecuenciaCaja">Frecuencia de envío</label>
+                        <select id="frecuenciaCaja" required>
+                            <option value="" disabled selected>Selecciona la frecuencia</option>
+                            <option value="1">Mensual</option>
+                            <option value="2">Bimensual</option>
+                            <option value="3">Por temporada</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Datos personales -->
+                <div class="fila-mitad">
+                    <div class="input-wrapper">
+                        <input type="text" id="nombre" placeholder="Nombre" required>
+                        <span class="error-message" id="error-nombre"></span>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" id="ocupacion" placeholder="Ocupación" required>
+                        <span class="error-message" id="error-ocupacion"></span>
+                    </div>
+                </div>
+
+                <div class="fila-mitad">
+                    <div class="input-wrapper">
+                        <input type="email" id="correo" placeholder="Correo electrónico" required>
+                        <span class="error-message" id="error-correo"></span>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="edad" placeholder="Edad" min="18" max="100" required>
+                        <span class="error-message" id="error-edad"></span>
+                    </div>
+                </div>
+
+                <div class="fila-mitad">
+                    <div class="input-wrapper">
+                        <input type="text" id="direccion" placeholder="Dirección" required>
+                    </div>
+                </div>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </section>
+
 </body>
 
 </html>

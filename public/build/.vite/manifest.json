@@ -1,8 +1,4 @@
 {
-  "_enums.js": {
-    "file": "assets/js/enums.js",
-    "name": "enums"
-  },
   "public/img/bgIndex.webp": {
     "file": "assets/bgIndex.webp",
     "src": "public/img/bgIndex.webp"
@@ -25,9 +21,6 @@
     "name": "detalles",
     "src": "resources/js/detalles.js",
     "isEntry": true,
-    "imports": [
-      "_enums.js"
-    ],
     "css": [
       "assets/css/detalles.css"
     ]
@@ -59,9 +52,6 @@
     "name": "perfil",
     "src": "resources/js/perfil.js",
     "isEntry": true,
-    "imports": [
-      "_enums.js"
-    ],
     "css": [
       "assets/css/perfil.css"
     ]

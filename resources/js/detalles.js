@@ -1,5 +1,16 @@
 import '../css/detalles.css';
-import { EstadoEnvio, FrecuenciaCaja } from '../js/enums.js';
+
+export const EstadoEnvio = {
+    1: "Preparado",
+    2: "Enviado",
+    3: "Recibido"
+};
+
+export const FrecuenciaCaja = {
+    1: "Mensual",
+    2: "Bimensual",
+    3: "Temporada"
+};
 
 const token = localStorage.getItem('token');
 if (!token) window.location.href = '/login';
