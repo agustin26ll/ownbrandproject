@@ -20,7 +20,6 @@
         <div class="logo">OwnBrand</div>
         <nav>
             <a href="/" id="homeLink">Inicio</a>
-            <a href="/mis-cajas" id="misCajasLink">Mis Cajas</a>
             <a href="/login" id="loginLink">Login</a>
             <a href="#" id="logoutLink" style="display:none">Cerrar sesión</a>
             <span id="userName" style="margin-left:15px"></span>
@@ -34,7 +33,7 @@
             <section id="cajasEnviosContainer">
                 <div class="section-header">
                     <h2>Mis cajas</h2>
-                    <button class="btn-primary">Crear Caja</button>
+                    <a class="btn-primary" href="/crear-caja">Crear Caja</a>
                 </div>
                 <div class="cards-container" id="cajasContainer">
 

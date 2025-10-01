@@ -73,6 +73,7 @@ const correo = document.getElementById("correo");
 const edad = document.getElementById("edad");
 const tipoCaja = document.getElementById("tipoCaja");
 const frecuenciaCaja = document.getElementById("frecuenciaCaja");
+const direccion = document.getElementById("direccion");
 
 const expresiones = {
     texto: /^[a-zA-ZÀ-ÿ\s]{6,40}$/,
@@ -176,6 +177,7 @@ formulario.addEventListener("submit", async (e) => {
         ocupacion: ocupacion.value,
         correo: correo.value,
         edad: edad.value,
+        direccion: direccion.value,
         tipoCaja: tipoCaja.value,
         frecuenciaCaja: frecuenciaCaja.value,
         productos: seleccionados.map(p => ({

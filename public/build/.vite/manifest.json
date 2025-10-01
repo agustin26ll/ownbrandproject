@@ -1,4 +1,8 @@
 {
+  "_enums.js": {
+    "file": "assets/js/enums.js",
+    "name": "enums"
+  },
   "public/img/bgIndex.webp": {
     "file": "assets/bgIndex.webp",
     "src": "public/img/bgIndex.webp"
@@ -6,6 +10,27 @@
   "public/img/section/degraded.webp": {
     "file": "assets/degraded.webp",
     "src": "public/img/section/degraded.webp"
+  },
+  "resources/js/cajas.js": {
+    "file": "assets/js/cajas.js",
+    "name": "cajas",
+    "src": "resources/js/cajas.js",
+    "isEntry": true,
+    "css": [
+      "assets/css/cajas.css"
+    ]
+  },
+  "resources/js/detalles.js": {
+    "file": "assets/js/detalles.js",
+    "name": "detalles",
+    "src": "resources/js/detalles.js",
+    "isEntry": true,
+    "imports": [
+      "_enums.js"
+    ],
+    "css": [
+      "assets/css/detalles.css"
+    ]
   },
   "resources/js/login.js": {
     "file": "assets/js/login.js",
@@ -34,6 +59,9 @@
     "name": "perfil",
     "src": "resources/js/perfil.js",
     "isEntry": true,
+    "imports": [
+      "_enums.js"
+    ],
     "css": [
       "assets/css/perfil.css"
     ]

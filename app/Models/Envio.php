@@ -16,7 +16,8 @@ class Envio extends Model
         'nombre',
         'correo',
         'edad',
-        'ocupacion'
+        'ocupacion',
+        'direccion'
     ];
 
     public $timestamps = false;

@@ -17,3 +17,11 @@ Route::get('/registrarse', function () {
 Route::get('/perfil', function () {
     return view('auth.perfil');
 });
+
+Route::get('/crear-caja', function () {
+    return view('box.crear');
+});
+
+Route::get('/detalles-caja/{id}', function ($id) {
+    return view('box.detalles', ['id' => $id]);
+});

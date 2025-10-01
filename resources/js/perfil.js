@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 `;
             }
 
-            inner += `<button class="btn-ver">Ver detalles</button>`;
+            inner += `<a class="btn-ver" href="/detalles-caja/${sanitize(caja.id)}">Ver detalles</a>`;
             div.innerHTML = inner;
             cajasContainer.appendChild(div);
         });

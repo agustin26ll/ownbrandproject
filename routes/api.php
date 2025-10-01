@@ -9,4 +9,5 @@ Route::post('contacto', [UsuarioController::class, 'enviarCorreo']);
 
 Route::middleware('jwt')->group(function () {
     Route::get('usuario', [UsuarioController::class, 'consultarToken']);
+    Route::get('caja/{id}', [UsuarioController::class, 'consultarCaja']);
 });

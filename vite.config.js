@@ -8,7 +8,9 @@ export default defineConfig({
                 'resources/js/main.js',
                 'resources/js/login.js',
                 'resources/js/registro.js',
-                'resources/js/perfil.js'
+                'resources/js/perfil.js',
+                'resources/js/cajas.js',
+                'resources/js/detalles.js'
             ],
             refresh: true,
         }),

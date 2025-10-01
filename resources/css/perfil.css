@@ -102,6 +102,7 @@ nav a:hover {
     font-size: 0.95rem;
     background: #007bff;
     color: #fff;
+    text-decoration: none;
 }
 
 .btn-primary:hover {

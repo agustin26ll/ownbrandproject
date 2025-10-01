@@ -159,6 +159,12 @@
                         </div>
                     </div>
 
+                    <div class="fila-mitad">
+                        <div class="input-wrapper">
+                            <input type="text" id="direccion" placeholder="Direccion de residencia" required>
+                        </div> 
+                    </div>
+
                     <button type="submit">Enviar</button>
                 </form>
             </div>

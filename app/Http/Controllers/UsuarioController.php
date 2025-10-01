@@ -88,6 +88,7 @@ class UsuarioController extends Controller
             'nombre' => 'required|string',
             'ocupacion' => 'required|string',
             'correo' => 'required|email',
+            'direccion' => 'required',
             'edad' => 'required|integer|min:18|max:100',
             'tipoCaja' => 'required|string|exists:tipo_caja,id',
             'frecuenciaCaja' => 'required|string|exists:frecuencia_caja,id',
@@ -112,6 +113,7 @@ class UsuarioController extends Controller
                     'correo' => $datos['correo'],
                     'edad' => $datos['edad'],
                     'ocupacion' => $datos['ocupacion'],
+                    'direccion' => $datos['direccion']
                 ]);
 
                 $numeroCaja = Caja::whereHas('envio', function ($query) use ($datos) {
@@ -215,5 +217,15 @@ class UsuarioController extends Controller
         $usuarioConRelaciones = Usuario::with(['cajas.productos', 'envios'])->find($usuario->id);
 
         return response()->json($usuarioConRelaciones);
+    }
+
+    public function consultarCaja($id)
+    {
+        $caja = Caja::with([
+            'productos',
+            'envio.estado',
+        ])->findOrFail($id);
+
+        return response()->json($caja);
     }
 }
