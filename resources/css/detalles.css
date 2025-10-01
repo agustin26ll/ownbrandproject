@@ -53,7 +53,7 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-.envio-info{
+.envio-info {
     margin: 1rem;
 }
 
@@ -102,18 +102,22 @@ nav a:hover {
 
 .productos-grid {
     display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
 .producto-card {
     background: #1a2a44;
     border-radius: 1rem;
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    max-width: 280px;
+    /* Limita ancho máximo */
+    margin: 0 auto;
 }
 
 .producto-card:hover {
@@ -121,13 +125,14 @@ nav a:hover {
     box-shadow: 0 12px 25px rgba(0, 123, 255, 0.25);
 }
 
+.producto-card img,
 .producto-img {
     width: 100%;
-    height: 220px;
+    height: 180px;
     object-fit: contain;
     border-radius: 8px;
-    margin-bottom: 15px;
-    transition: transform 0.3s;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
 }
 
 .producto-card:hover .producto-img {
@@ -135,21 +140,22 @@ nav a:hover {
 }
 
 .producto-card h4 {
-    margin: .5rem 0;
+    margin: 0.5rem 0;
     font-size: 1rem;
     color: #fff;
+    text-align: center;
 }
 
 .producto-card p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #ccc;
+    text-align: center;
 }
 
 .producto-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
 }
-
 
 .producto-titulo {
     font-size: 1.1rem;
@@ -175,9 +181,9 @@ nav a:hover {
 }
 
 .producto-precio {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #007bff;
-    margin: 10px 0;
+    margin: 8px 0 0 0;
 }
 
 .btn-add {
@@ -269,9 +275,40 @@ nav a:hover {
     background-color: #0056b3;
 }
 
-/* Responsive */
 @media (max-width: 767px) {
     .detalles-layout {
         flex-direction: column;
+        padding: 3vh 2vw;
+        gap: 2rem;
+    }
+
+    .productos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+    }
+
+    .producto-card {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .producto-card img {
+        height: 140px;
+    }
+
+    .pago-aside {
+        min-width: 100%;
+        padding: 1.5rem;
+    }
+}
+
+/* Responsive para pantallas grandes */
+@media (min-width: 1200px) {
+    .productos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .producto-card img {
+        height: 200px;
     }
 }
