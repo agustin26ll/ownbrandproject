@@ -22,7 +22,6 @@
         <div class="logo">OwnBrand</div>
         <nav>
             <a href="/" id="homeLink">Inicio</a>
-            <a href="/mis-cajas" id="misCajasLink">Mis Cajas</a>
             <a href="/login" id="loginLink">Login</a>
             <a href="#" id="logoutLink" style="display:none">Cerrar sesión</a>
             <span id="userName" style="margin-left:15px"></span>
